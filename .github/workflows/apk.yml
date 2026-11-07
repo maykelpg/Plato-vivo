@@ -1,0 +1,82 @@
+name: Construir APK
+
+on:
+  push:
+    branches: [main]
+    paths: ['index.html', 'keystore.b64', '.github/workflows/apk.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Firma fija (para poder actualizar sin perder datos)
+        run: |
+          mkdir -p ~/.android
+          base64 -d keystore.b64 > ~/.android/debug.keystore
+
+      - name: Crear proyecto Android
+        run: |
+          mkdir app
+          cd app
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/local-notifications@6
+          mkdir www
+          cp ../index.html www/index.html
+          printf '{"appId":"com.maykelpg.platovivo","appName":"Plato Vivo","webDir":"www","server":{"androidScheme":"https"}}' > capacitor.config.json
+          npx cap add android
+          npx cap sync android
+
+      - name: Permisos e icono
+        run: |
+          cd app/android/app/src/main
+          sed -i 's#</manifest>#    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n</manifest>#' AndroidManifest.xml
+          rm -rf res/mipmap-anydpi-v26
+          pip install pillow
+          python3 - <<'PY'
+          from PIL import Image, ImageDraw
+          def icon(n):
+              S = n * 4
+              im = Image.new('RGB', (S, S), (241, 246, 241))
+              d = ImageDraw.Draw(im)
+              m = int(S * 0.12)
+              box = (m, m, S - m, S - m)
+              d.ellipse(box, fill=(255, 255, 255), outline=(19, 36, 26), width=int(S * 0.025))
+              d.pieslice(box, start=270, end=0, fill=(224, 83, 63))
+              d.pieslice(box, start=0, end=90, fill=(233, 162, 28))
+              d.pieslice(box, start=90, end=270, fill=(56, 161, 105))
+              d.ellipse((S * 0.38, S * 0.38, S * 0.62, S * 0.62), fill=(255, 255, 255))
+              return im.resize((n, n), Image.LANCZOS)
+          for folder, n in [('mdpi', 48), ('hdpi', 72), ('xhdpi', 96), ('xxhdpi', 144), ('xxxhdpi', 192)]:
+              im = icon(n)
+              for name in ['ic_launcher.png', 'ic_launcher_round.png', 'ic_launcher_foreground.png']:
+                  im.save('res/mipmap-' + folder + '/' + name)
+          PY
+
+      - name: Compilar
+        run: |
+          cd app/android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/Plato-Vivo.apk"
+
+      - name: Publicar el APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: Plato Vivo (compilación ${{ github.run_number }})
+          files: Plato-Vivo.apk
