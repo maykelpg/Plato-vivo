@@ -79,7 +79,7 @@ p { margin: 0; }
 
 /* cabecera */
 .top { display: flex; align-items: center; gap: 12px; padding: 10px 0 4px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); }
-.brand { display: flex; align-items: center; gap: 9px; font-family: var(--f-display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; }
+.brand { white-space: nowrap; display: flex; align-items: center; gap: 9px; font-family: var(--f-display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; }
 .brand svg { width: 28px; height: 28px; }
 .datenav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 .datenav button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; width: 34px; height: 34px; display: grid; place-items: center; }
@@ -294,6 +294,67 @@ textarea.in { min-height: 76px; resize: vertical; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes pulse { 50% { opacity: .55; } }
 }
+
+/* ===== v2 · registro, alternativas, comidas habituales y pulido general ===== */
+body.gated .nav, body.gated .fab, body.gated .top { display: none; }
+.gate { display: flex; flex-direction: column; gap: 14px; padding: 28px 0 40px; max-width: 460px; margin: 0 auto; }
+.gate h1 { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; }
+.gate-logo { width: 76px; height: 76px; border-radius: 24px; background: var(--accent-soft); display: grid; place-items: center; font-size: 40px; }
+.acct { margin-bottom: 6px; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 20px; flex: none; }
+.plrow { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--line); }
+.plrow:last-of-type { border-bottom: 0; }
+.plrow .li { flex: 1; min-width: 0; border-bottom: 0; }
+.favs { display: flex; flex-direction: column; gap: 8px; margin: 6px 0 4px; }
+.fav { display: flex; align-items: center; gap: 8px; background: var(--accent-soft); border-radius: 14px; padding: 6px 8px 6px 4px; }
+.fav-go { flex: 1; min-width: 0; text-align: left; background: none; border: 0; padding: 6px 8px; display: flex; flex-direction: column; gap: 2px; }
+.fav-go b { overflow-wrap: anywhere; }
+.iconbtn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.iconbtn[disabled] { opacity: .4; }
+
+/* más aire y jerarquía */
+.card { box-shadow: 0 1px 2px rgba(19, 36, 26, .04), 0 8px 24px rgba(19, 36, 26, .05); }
+.hero { box-shadow: 0 1px 2px rgba(19, 36, 26, .05), 0 12px 32px rgba(19, 36, 26, .07); }
+.sec-title { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.card h3 { font-size: 17px; }
+.top { border-bottom: 1px solid transparent; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+
+/* zonas de toque cómodas (mínimo 44 px) y respuesta al pulsar */
+.btn { min-height: 46px; }
+.btn.sm { min-height: 38px; }
+.chip { min-height: 38px; display: inline-flex; align-items: center; }
+.iconbtn { width: 40px; height: 40px; flex: none; }
+.li { min-height: 56px; }
+.seg button { min-height: 40px; }
+.btn, .chip, .iconbtn, .li, .nav button, .fab, .seg button, .fav-go { transition: transform .12s ease, background-color .15s ease, opacity .15s ease; -webkit-tap-highlight-color: transparent; }
+.btn:active, .chip:active, .iconbtn:active, .fab:active { transform: scale(.96); }
+.li:active, .fav-go:active { opacity: .6; }
+
+/* barra inferior: la pestaña activa se ve de un vistazo */
+.nav { background: color-mix(in srgb, var(--surface) 92%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.nav button { position: relative; padding: 8px 2px 6px; min-height: 54px; }
+.nav button svg { position: relative; z-index: 1; }
+.nav button.on { font-weight: 800; }
+.nav button.on::before { content: ""; position: absolute; top: 4px; left: 50%; width: 54px; height: 32px; transform: translateX(-50%); border-radius: 999px; background: var(--accent-soft); }
+
+/* hojas: asa para arrastrar y entrada suave */
+.sheet { position: relative; padding-top: 8px; }
+.sheet::before { content: ""; position: absolute; top: 8px; left: 50%; width: 40px; height: 5px; margin-left: -20px; border-radius: 5px; background: var(--line); }
+.sheet-head { padding-top: 18px; }
+@keyframes pv-up { from { transform: translateY(28px); opacity: 0; } }
+@keyframes pv-fade { from { opacity: 0; } }
+.sheet { animation: pv-up .24s cubic-bezier(.2, .8, .2, 1); }
+.sheet-back { animation: pv-fade .18s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .sheet, .sheet-back { animation: none; }
+  .btn, .chip, .iconbtn, .li, .nav button, .fab, .seg button, .fav-go { transition: none; }
+  .btn:active, .chip:active, .iconbtn:active, .fab:active { transform: none; }
+}
+
+/* v3 · portada con menú del día, pregunta de digestión y cantidades a ojo */
+.eye { display: block; font-weight: 500; margin-top: 2px; }
+.card.ask { border-color: var(--accent); background: var(--accent-soft); }
+.card.plan-today .lab { margin-bottom: 2px; }
 
 </style>
 </head>
@@ -556,7 +617,108 @@ textarea.in { min-height: 76px; resize: vertical; }
 
     // ---- Semillas (más)
     ['tahini','Tahini','🫙','fruto_seco',595,17,21,54,9,'cucharada',15,0,'ses','r','','grasa_sana'],
-    ['pipas-calabaza','Pipas de calabaza','🎃','fruto_seco',559,30,11,49,6,'puñado',25,0,'','b','Ricas en magnesio y zinc','grasa_sana']
+    ['pipas-calabaza','Pipas de calabaza','🎃','fruto_seco',559,30,11,49,6,'puñado',25,0,'','b','Ricas en magnesio y zinc','grasa_sana'],
+    // ---- Ampliación: 100 alimentos más
+    ['ciruela','Ciruela','🟣','fruta',46,0.7,11,0.3,1.4,'unidad',60,0,'','m','Sorbitol: suele dar gases','polioles'],
+    ['nectarina','Nectarina','🍑','fruta',44,1.1,10.5,0.3,1.7,'unidad',140,0,'','m','Sorbitol y fructanos','polioles'],
+    ['granada','Granada','🔴','fruta',83,1.7,19,1.2,4,'ración',100,0,'','r','En ración pequeña suele tolerarse','fructanos'],
+    ['caqui','Caqui','🟠','fruta',70,0.6,18.6,0.2,3.6,'unidad',170,0,'','r','Medio caqui suele sentar bien','fructosa vit_a'],
+    ['coco','Coco fresco','🥥','fruta',354,3.3,15,33,9,'ración',30,0,'','r','Graso: mejor en poca cantidad','graso polioles'],
+    ['lima','Lima','🍋','fruta',30,0.7,10.5,0.2,2.8,'unidad',60,0,'','b','','vitc'],
+    ['moras','Moras','🫐','fruta',43,1.4,10,0.5,5.3,'puñado',60,0,'','m','Sorbitol','polioles'],
+    ['pasas','Pasas','🍇','fruta',299,3.1,79,0.5,3.7,'puñado',30,0,'','m','Fructosa concentrada','fructosa'],
+    ['orejones','Orejones de albaricoque','🍑','fruta',241,3.4,63,0.5,7.3,'puñado',30,0,'sul','m','Sorbitol concentrado','polioles fructosa'],
+    ['ciruelas-pasas','Ciruelas pasas','🟤','fruta',240,2.2,64,0.4,7.1,'unidad',10,0,'','m','Laxantes: sorbitol concentrado','polioles'],
+    ['nabo','Nabo','🥔','verdura',28,0.9,6.4,0.1,1.8,'ración',150,0,'','b','','vitc'],
+    ['chirivia','Chirivía','🥕','verdura',75,1.2,18,0.3,4.9,'ración',150,0,'','b','',''],
+    ['col-bruselas','Coles de Bruselas','🥬','verdura',43,3.4,9,0.3,3.8,'ración',150,0,'','m','Fructanos: suelen dar gases','fructanos vitc'],
+    ['berros','Berros','🌿','verdura',11,2.3,1.3,0.1,0.5,'puñado',30,0,'','b','','vitc ca'],
+    ['escarola','Escarola','🥬','verdura',17,1.3,3.4,0.2,3.1,'ración',80,0,'','b','',''],
+    ['setas','Setas de ostra','🍄','verdura',33,3.3,6,0.4,2.3,'ración',150,0,'','b','Se toleran mejor que el champiñón',''],
+    ['brotes-soja','Brotes de soja','🌱','verdura',30,3,6,0.2,1.8,'puñado',50,0,'soj','b','',''],
+    ['pepinillos','Pepinillos en vinagre','🥒','verdura',11,0.3,2.3,0.2,1.2,'unidad',30,0,'','b','',''],
+    ['tomate-seco','Tomate seco','🍅','verdura',258,14,56,3,12,'unidad',5,0,'sul','r','Fructosa concentrada: pocas unidades','fructosa licop'],
+    ['chucrut','Chucrut','🥬','verdura',19,0.9,4.3,0.1,2.9,'ración',80,0,'','r','Fermentado: empieza con poca cantidad','prob'],
+    ['yuca','Yuca cocida','🥔','cereal',160,1.4,38,0.3,1.8,'ración',150,0,'','b','','almidon'],
+    ['platano-macho','Plátano macho cocido','🍌','cereal',122,1.3,32,0.4,2.3,'ración',150,0,'','b','','almidon'],
+    ['arroz-basmati','Arroz basmati cocido','🍚','cereal',130,2.7,28,0.3,0.4,'ración',180,0,'','b','','carb_ref'],
+    ['pan-masa-madre','Pan de masa madre','🍞','cereal',240,8,47,1.5,3,'rebanada',30,1,'glu','r','La fermentación larga reduce los fructanos','fructanos'],
+    ['pan-molde','Pan de molde','🍞','cereal',265,8.5,49,3.5,2.7,'rebanada',28,1,'glu','r','Trigo: fructanos','fructanos carb_ref'],
+    ['bulgur','Bulgur cocido','🌾','cereal',83,3.1,18.6,0.2,4.5,'ración',180,1,'glu','m','Trigo: fructanos','fructanos'],
+    ['noquis','Ñoquis','🥟','cereal',130,3,28,0.5,1.5,'ración',200,1,'glu','r','Patata con harina de trigo','fructanos'],
+    ['muesli','Muesli','🥣','cereal',360,10,62,7,8,'ración',40,1,'glu fsc','m','Trigo, fruta seca y miel','fructanos fructosa'],
+    ['pasta-integral','Pasta integral cocida','🍝','cereal',124,5.3,25,0.9,3.9,'ración',200,1,'glu','m','Trigo: fructanos','fructanos'],
+    ['pasta-lentejas','Pasta de lentejas cocida','🍝','cereal',120,9,18,0.8,3,'ración',200,2,'','r','Legumbre: mejor ración pequeña','gos fe_veg'],
+    ['habas','Habas cocidas','🫛','legumbre',88,7.6,12,0.6,5.4,'ración',150,0,'','m','GOS y fructanos','gos fe_veg'],
+    ['lentejas-rojas','Lentejas rojas cocidas','🫘','legumbre',116,9,20,0.4,4,'ración',200,2,'','r','Sin piel: algo más digestivas','gos fe_veg'],
+    ['judias-pintas','Judías pintas cocidas','🫘','legumbre',127,8.7,22,0.5,6.4,'ración',200,2,'','m','GOS: suelen dar gases','gos fe_veg'],
+    ['soja-texturizada','Soja texturizada hidratada','🟫','veg',110,16,9,0.5,5,'ración',100,2,'soj','r','GOS: depende de la ración','gos prot_mag'],
+    ['hamburguesa-vegetal','Hamburguesa vegetal','🍔','veg',180,16,8,9,4,'unidad',100,2,'soj','r','Revisa si lleva cebolla y ajo','fructanos'],
+    ['solomillo-cerdo','Solomillo de cerdo','🥩','carne',143,21,0,6,0,'filete',120,0,'','b','Magro','prot_mag'],
+    ['costillas-cerdo','Costillas de cerdo','🍖','carne',290,20,0,23,0,'ración',150,0,'','r','Muy grasas','graso'],
+    ['carne-picada','Carne picada mixta','🥩','carne',215,19,0,15,0,'ración',120,2,'','r','Grasa: digestión lenta','graso fe_hemo'],
+    ['albondigas','Albóndigas en salsa','🧆','carne',200,14,7,13,0.5,'ración',150,1,'glu hue','r','Suelen llevar pan, ajo y cebolla','fructanos graso'],
+    ['bacon','Bacon','🥓','carne',420,14,1,40,0,'loncha',15,2,'','r','Muy graso','graso'],
+    ['lacon','Lacón cocido','🍖','carne',150,20,1,7.5,0,'loncha',30,2,'','b','','prot_mag'],
+    ['pollo-asado','Pollo asado','🍗','carne',190,25,0,10,0,'ración',150,0,'','b','Sin piel es más ligero','prot_mag'],
+    ['entrecot','Entrecot de ternera','🥩','carne',250,21,0,18,0,'filete',180,0,'','r','Graso: digestión lenta','graso fe_hemo'],
+    ['cecina','Cecina','🥩','carne',240,40,0,9,0,'loncha',15,0,'','b','','prot_mag fe_hemo'],
+    ['atun-fresco','Atún fresco','🐟','pescado',144,23,0,5,0,'filete',150,0,'pes','b','','omega3 vit_d'],
+    ['lenguado','Lenguado','🐟','pescado',86,17,0,1.5,0,'filete',150,0,'pes','b','Muy fácil de digerir','prot_mag'],
+    ['gallo','Gallo','🐟','pescado',80,16,0,1.5,0,'filete',150,0,'pes','b','Muy fácil de digerir','prot_mag'],
+    ['emperador','Emperador (pez espada)','🐟','pescado',121,20,0,4.4,0,'filete',150,0,'pes','b','','prot_mag'],
+    ['anchoas-lata','Anchoas en aceite','🐟','pescado',210,29,0,10,0,'unidad',4,0,'pes','b','','omega3'],
+    ['salmon-ahumado','Salmón ahumado','🍣','pescado',180,22,0,10,0,'loncha',25,0,'pes','b','','omega3'],
+    ['surimi','Palitos de surimi','🦀','pescado',95,8,13,1,0,'unidad',17,2,'pes hue','r','Lleva almidón y aditivos',''],
+    ['berberechos','Berberechos al natural','🐚','pescado',79,13.5,4.7,0.7,0,'lata',60,0,'mol','b','','fe_hemo'],
+    ['queso-crema','Queso crema de untar','🧀','lacteo',250,6,4,23,0,'cucharada',20,0,'lac','r','Lactosa y grasa','lactosa graso'],
+    ['queso-feta','Queso feta','🧀','lacteo',264,14,4,21,0,'ración',40,0,'lac','b','Poca lactosa','ca'],
+    ['emmental','Queso emmental','🧀','lacteo',380,28,0,29,0,'loncha',20,0,'lac','b','Curado: casi sin lactosa','ca'],
+    ['queso-batido','Queso fresco batido 0 %','🥛','lacteo',46,8,3.5,0.1,0,'unidad',125,0,'lac','r','Tiene lactosa','lactosa prot_mag'],
+    ['nata','Nata para cocinar','🥛','lacteo',300,2.3,3,31,0,'cucharada',15,0,'lac','r','Grasa y algo de lactosa','graso lactosa'],
+    ['leche-desnatada','Leche desnatada','🥛','lacteo',34,3.4,4.9,0.1,0,'vaso',250,0,'lac','m','Lactosa','lactosa ca'],
+    ['yogur-soja','Yogur de soja natural','🥛','lacteo',50,4,2,2.3,0.5,'unidad',125,0,'soj','b','Sin lactosa','ca'],
+    ['nueces-brasil','Nueces de Brasil','🌰','fruto_seco',659,14,12,67,7.5,'unidad',5,0,'fsc','b','','grasa_sana'],
+    ['pinones','Piñones','🌰','fruto_seco',673,14,13,68,3.7,'cucharada',10,0,'','b','','grasa_sana'],
+    ['sesamo','Semillas de sésamo','🌾','fruto_seco',573,18,23,50,12,'cucharada',9,0,'ses','b','','ca'],
+    ['castanas','Castañas asadas','🌰','fruto_seco',245,3.2,53,2.2,5.1,'unidad',10,0,'','b','','almidon'],
+    ['aceite-coco','Aceite de coco','🥥','grasa',862,0,0,100,0,'cucharada',10,0,'','b','','graso'],
+    ['chocolate-blanco','Chocolate blanco','🍫','dulce',539,6,59,32,0,'onza',10,2,'lac soj','m','Lactosa, azúcar y grasa','lactosa azucar_alto graso'],
+    ['donut','Dónut','🍩','dulce',420,5,48,23,1.5,'unidad',55,1,'glu lac hue soj','m','Trigo, azúcar y fritura','fructanos azucar_alto graso'],
+    ['bizcocho','Bizcocho casero','🍰','dulce',350,6,50,14,1,'porción',60,1,'glu hue lac','r','Trigo y azúcar','fructanos azucar_alto'],
+    ['barrita-cereales','Barrita de cereales','🍫','dulce',400,6,68,11,4,'unidad',25,1,'glu fsc','m','Suele llevar miel, inulina o fruta seca','fructanos azucar_alto'],
+    ['flan','Flan de huevo','🍮','dulce',125,4,20,3.5,0,'unidad',110,0,'lac hue','r','Lactosa y azúcar','lactosa azucar_alto'],
+    ['natillas','Natillas','🍮','dulce',120,3.5,18,3.8,0,'unidad',125,2,'lac hue','r','Lactosa y azúcar','lactosa azucar_alto'],
+    ['galleta-digestive','Galleta digestive','🍪','dulce',470,7,63,21,3.5,'unidad',15,1,'glu lac','r','Trigo y azúcar','fructanos azucar_alto'],
+    ['arroz-con-leche','Arroz con leche','🍚','dulce',130,3,22,3,0.2,'unidad',150,0,'lac','r','Lactosa y azúcar','lactosa azucar_alto'],
+    ['te-verde','Té verde','🍵','bebida',1,0,0,0,0,'taza',200,0,'','b','','te_cafe cafeina'],
+    ['infusion-menta','Infusión de menta','🌿','bebida',1,0,0,0,0,'taza',200,0,'','b','Suele aliviar los gases',''],
+    ['kombucha','Kombucha','🍹','bebida',18,0,4,0,0,'vaso',250,0,'','r','Con gas y azúcares fermentables','gas'],
+    ['agua-gas','Agua con gas','🫧','bebida',0,0,0,0,0,'vaso',250,0,'','r','El gas puede hinchar','gas'],
+    ['zumo-manzana','Zumo de manzana','🧃','bebida',46,0.1,11,0.1,0.2,'vaso',200,0,'','m','Fructosa y sorbitol','fructosa azucar_alto'],
+    ['refresco-zero','Refresco de cola sin azúcar','🥤','bebida',0.4,0,0,0,0,'lata',330,0,'','r','Gas, cafeína y edulcorantes','gas cafeina'],
+    ['cerveza-sin','Cerveza sin alcohol','🍺','bebida',22,0.3,5,0,0,'caña',200,1,'glu','r','Gas y cebada','gas fructanos'],
+    ['vino-blanco','Vino blanco','🥂','bebida',82,0.1,2.6,0,0,'copa',150,0,'sul','r','El alcohol irrita el intestino','alcohol'],
+    ['horchata','Horchata','🥛','bebida',70,0.6,12,2.2,0.1,'vaso',200,0,'','r','Azúcar añadido','azucar_alto'],
+    ['guacamole','Guacamole','🥑','condimento',155,2,8,14,6,'cucharada',25,0,'','r','Suele llevar cebolla','fructanos grasa_sana'],
+    ['ketchup','Kétchup','🍅','condimento',100,1.2,24,0.2,0.3,'cucharada',15,2,'','r','Azúcar y a veces cebolla','azucar_alto'],
+    ['pesto','Pesto','🌿','condimento',480,5,5,48,2,'cucharada',15,2,'lac fsc','r','Lleva ajo','fructanos graso'],
+    ['alioli','Alioli','🧄','condimento',680,1,1.5,75,0,'cucharada',15,0,'hue','m','Ajo crudo y mucha grasa','fructanos graso'],
+    ['salsa-yogur','Salsa de yogur','🥣','condimento',90,3.5,5,6,0,'cucharada',20,0,'lac','r','Lactosa; a veces ajo','lactosa'],
+    ['canela','Canela','🟤','condimento',247,4,81,1.2,53,'cucharadita',2,0,'','b','',''],
+    ['lentejas-guisadas','Lentejas guisadas','🍲','plato',110,6.5,13,3.5,4,'plato',300,2,'','m','Legumbre con cebolla y ajo','gos fructanos fe_veg'],
+    ['pisto','Pisto','🍅','plato',60,1.2,6,3.5,1.8,'ración',200,0,'','r','Lleva cebolla','fructanos licop'],
+    ['ensaladilla','Ensaladilla rusa','🥗','plato',180,3.5,10,14,1.5,'ración',150,0,'hue pes','r','Mayonesa: grasa','graso'],
+    ['croquetas','Croquetas','🧆','plato',230,7,22,12,1,'unidad',30,1,'glu lac hue','r','Bechamel, harina y fritura','fructanos lactosa graso'],
+    ['pure-patata','Puré de patata','🥔','plato',100,2,15,3.5,1.5,'ración',200,0,'lac','r','Lleva leche y mantequilla','lactosa almidon'],
+    ['revuelto','Revuelto de huevo','🍳','plato',180,11,2,14,0.5,'ración',150,0,'hue','b','',''],
+    ['salmorejo','Salmorejo','🍅','plato',120,2.5,10,7.5,1,'bol',250,1,'glu','r','Pan y ajo','fructanos licop'],
+    ['bocadillo-jamon','Bocadillo de jamón','🥖','plato',250,13,30,8,1.5,'unidad',150,1,'glu','r','Pan de trigo','fructanos carb_ref'],
+    ['macarrones-tomate','Macarrones con tomate','🍝','plato',140,5,22,3.5,1.5,'plato',300,1,'glu','m','Trigo y sofrito con cebolla','fructanos'],
+    ['lasana','Lasaña de carne','🍝','plato',150,8,12,8,1,'ración',250,1,'glu lac hue','m','Trigo, bechamel y sofrito','fructanos lactosa graso'],
+    ['tortilla-francesa','Tortilla francesa','🍳','plato',160,11,0.6,12.5,0,'unidad',110,0,'hue','b','',''],
+    ['sandwich-mixto','Sándwich mixto','🥪','plato',260,12,25,12,1.5,'unidad',130,1,'glu lac','r','Pan de molde y queso','fructanos lactosa'],
+    ['pollo-empanado','Pollo empanado','🍗','plato',240,18,13,13,0.8,'filete',130,1,'glu hue','r','Rebozado y fritura','graso fructanos']
   ];
 
   const FOODS = RAW.map(r => ({
@@ -570,7 +732,8 @@ textarea.in { min-height: 76px; resize: vertical; }
   const FS = {
     'azucar': 100, 'miel': 82, 'mermelada': 60, 'chocolate-negro': 24, 'chocolate-leche': 50, 'helado': 17,
     'galleta-maria': 22, 'magdalena': 24, 'croissant': 8, 'cola': 10.6, 'zumo-naranja': 8.4,
-    'cereales-maiz': 8, 'granola': 15, 'sushi': 2, 'tomate-frito': 5
+    'cereales-maiz': 8, 'granola': 15, 'sushi': 2, 'tomate-frito': 5,
+    'muesli': 10, 'surimi': 2, 'chocolate-blanco': 55, 'donut': 20, 'bizcocho': 28, 'barrita-cereales': 25, 'flan': 17, 'natillas': 13, 'galleta-digestive': 17, 'arroz-con-leche': 10, 'kombucha': 3, 'zumo-manzana': 10, 'horchata': 9, 'ketchup': 22
   };
 
   const CATS = [
@@ -646,7 +809,8 @@ textarea.in { min-height: 76px; resize: vertical; }
     'avena','quinoa','lentejas','garbanzos','pollo','pavo','ternera','jamon-serrano','salmon','merluza',
     'atun-lata','gambas','huevo','yogur-nat','queso-curado','leche-semi','almendras','nueces','tofu','chocolate-negro',
     'melon','pera','mandarina','mango','pina','coliflor','judias-verdes','esparragos','calabaza','boniato',
-    'alubias','lomo-cerdo','dorada','sardinas','mejillones','pulpo','queso-fresco','kefir','anacardos','aceitunas'
+    'alubias','lomo-cerdo','dorada','sardinas','mejillones','pulpo','queso-fresco','kefir','anacardos','aceitunas',
+    'pina','sandia','melocoton','cerezas','arandanos','ciruela','caqui','granada','lechuga','pepino','acelgas','guisantes','alcachofa','puerro','pimiento-verde','repollo','setas','escarola','arroz-integral','pan-integral','boniato','cuscus','pasta-integral','arroz-basmati','yuca','habas','lentejas-rojas','muslo-pollo','cordero','conejo','solomillo-cerdo','hamburguesa','jamon-cocido','bacalao','trucha','lubina','rape','caballa','boquerones','calamar','langostinos','almejas','sepia','lenguado','atun-fresco','salmon-ahumado','yogur-griego','mozzarella','requeson','queso-cabra','leche-entera','queso-feta','pistachos','avellanas','cacahuetes','tempeh','seitan','edamame','hummus','tortilla-francesa'
   ];
 
   const SYMPTOMS = ['Hinchazón', 'Dolor abdominal', 'Gases', 'Diarrea', 'Estreñimiento', 'Acidez', 'Náuseas', 'Cansancio'];
@@ -681,21 +845,21 @@ textarea.in { min-height: 76px; resize: vertical; }
 
   // Candidatos para generar menús (id de alimento).
   const POOLS = {
-    drinkB: ['leche-semi','leche-sin-lactosa','yogur-nat','yogur-sin-lactosa','yogur-griego','kefir','leche-almendra','leche-avena','leche-arroz','leche-soja'],
-    carbB: ['pan-blanco','pan-integral','pan-sg','avena','tortita-arroz'],
-    topB: ['huevo','jamon-serrano','jamon-cocido','queso-curado','queso-fresco','queso-cabra','aguacate','crema-cacahuete','pavo'],
-    nuts: ['almendras','nueces','avellanas','cacahuetes','pistachos','anacardos','pipas-calabaza'],
-    meat: ['pollo','muslo-pollo','pavo','ternera','lomo-cerdo','cordero','hamburguesa','conejo'],
-    fish: ['salmon','merluza','bacalao','sardinas','gambas','mejillones','calamar','pulpo','dorada','trucha','atun-lata','lubina','rape','caballa','boquerones','langostinos','almejas','sepia'],
-    legume: ['lentejas','garbanzos','alubias'],
-    egg: ['huevo','tortilla-patata'],
-    vegprot: ['tofu','tempeh','seitan','edamame'],
-    carbL: ['arroz-blanco','arroz-integral','pasta','pasta-sg','patata','quinoa','boniato','cuscus','trigo-sarraceno','mijo','polenta','fideos-arroz'],
-    vegL: ['tomate','zanahoria','calabacin','pepino','lechuga','espinacas','acelgas','rucula','brocoli','coliflor','repollo','pimiento-rojo','pimiento-verde','berenjena','judias-verdes','calabaza','ensalada','champinon','esparragos','guisantes','alcachofa','tomate-cherry','canonigos','kale','endivia'],
-    dinnerProt: ['merluza','bacalao','salmon','dorada','trucha','gambas','pulpo','calamar','huevo','pollo','pavo','tofu','atun-lata','tortilla-patata','mejillones','lubina','rape','caballa','langostinos','sepia','claras'],
-    dairySnack: ['yogur-nat','yogur-sin-lactosa','yogur-griego','kefir','queso-fresco','requeson','skyr'],
-    breadSmall: ['pan-blanco','pan-integral','pan-sg','tortita-arroz'],
-    fruitNo: ['limon','aguacate']
+    drinkB: ['leche-semi','leche-sin-lactosa','yogur-nat','yogur-sin-lactosa','yogur-griego','kefir','leche-almendra','leche-avena','leche-arroz','leche-soja','leche-desnatada'],
+    carbB: ['pan-blanco','pan-integral','pan-sg','avena','tortita-arroz','pan-masa-madre','pan-molde'],
+    topB: ['huevo','jamon-serrano','jamon-cocido','queso-curado','queso-fresco','queso-cabra','aguacate','crema-cacahuete','pavo','salmon-ahumado','queso-crema','lacon'],
+    nuts: ['almendras','nueces','avellanas','cacahuetes','pistachos','anacardos','pipas-calabaza','nueces-brasil'],
+    meat: ['pollo','muslo-pollo','pavo','ternera','lomo-cerdo','cordero','hamburguesa','conejo','solomillo-cerdo','pollo-asado'],
+    fish: ['salmon','merluza','bacalao','sardinas','gambas','mejillones','calamar','pulpo','dorada','trucha','atun-lata','lubina','rape','caballa','boquerones','langostinos','almejas','sepia','atun-fresco','lenguado','emperador','gallo'],
+    legume: ['lentejas','garbanzos','alubias','lentejas-rojas','judias-pintas','habas'],
+    egg: ['huevo','tortilla-patata','tortilla-francesa','revuelto'],
+    vegprot: ['tofu','tempeh','seitan','edamame','soja-texturizada','hamburguesa-vegetal'],
+    carbL: ['arroz-blanco','arroz-integral','pasta','pasta-sg','patata','quinoa','boniato','cuscus','trigo-sarraceno','mijo','polenta','fideos-arroz','arroz-basmati','yuca','pasta-integral','pasta-lentejas','noquis'],
+    vegL: ['tomate','zanahoria','calabacin','pepino','lechuga','espinacas','acelgas','rucula','brocoli','coliflor','repollo','pimiento-rojo','pimiento-verde','berenjena','judias-verdes','calabaza','ensalada','champinon','esparragos','guisantes','alcachofa','tomate-cherry','canonigos','kale','endivia','escarola','berros','nabo','setas','brotes-soja'],
+    dinnerProt: ['merluza','bacalao','salmon','dorada','trucha','gambas','pulpo','calamar','huevo','pollo','pavo','tofu','atun-lata','tortilla-patata','mejillones','lubina','rape','caballa','langostinos','sepia','claras','lenguado','gallo','atun-fresco','tortilla-francesa','revuelto'],
+    dairySnack: ['yogur-nat','yogur-sin-lactosa','yogur-griego','kefir','queso-fresco','requeson','skyr','queso-batido','yogur-soja'],
+    breadSmall: ['pan-blanco','pan-integral','pan-sg','tortita-arroz','pan-masa-madre'],
+    fruitNo: ['limon','aguacate','coco','pasas','orejones','ciruelas-pasas','lima']
   };
 
   // ---- Recetas saludables (cantidades totales de la receta; s = raciones)
@@ -1193,7 +1357,7 @@ textarea.in { min-height: 76px; resize: vertical; }
   };
   const planCtx = (s, settings) => ({
     restr: [...s.profile.restr, ...(settings.type === 'colon' && !s.profile.restr.includes('ibs') ? ['ibs'] : []), ...(settings.type === 'singluten' && !s.profile.restr.includes('celiac') ? ['celiac'] : [])],
-    taste: Object.assign({}, settings.useTaste ? learned(s) : {}, settings.useTaste ? s.taste : {}, Object.fromEntries(Object.keys(s.tol || {}).map(k => [k, -1])), settings.avoid ? Object.assign(Object.fromEntries(detective(s).suspects.filter(o => getFood(o.k)).map(o => [o.k, -1])), Object.fromEntries(PV.FOODS.filter(f => Object.entries((s.reintro || {}).done || {}).some(([g, r]) => r.res === 'no' && (f.tags || []).includes(g))).map(f => [f.id, -1]))) : {}), used: {}
+    taste: Object.assign({}, settings.useTaste ? learned(s) : {}, settings.useTaste ? s.taste : {}, Object.fromEntries(Object.entries(s.taste || {}).filter(e => e[1] === -1).map(e => [e[0], -1])), Object.fromEntries(Object.keys(s.tol || {}).map(k => [k, -1])), settings.avoid ? Object.assign(Object.fromEntries(detective(s).suspects.filter(o => getFood(o.k)).map(o => [o.k, -1])), Object.fromEntries(PV.FOODS.filter(f => Object.entries((s.reintro || {}).done || {}).some(([g, r]) => r.res === 'no' && (f.tags || []).includes(g))).map(f => [f.id, -1]))) : {}), used: {}
   });
   const pickFood = (ids, ctx, rand) => {
     const ibs = ctx.restr.includes('ibs');
@@ -1297,6 +1461,38 @@ textarea.in { min-height: 76px; resize: vertical; }
     return Object.entries(acc).map(([id, g]) => ({ f: getFood(id), g })).filter(x => x.f).sort((a, b) => a.f.c.localeCompare(b.f.c) || a.f.n.localeCompare(b.f.n));
   };
 
+  /* ---------- alternativas al quitar un alimento del menú ---------- */
+  const roleIds = id => {
+    const P = PV.POOLS, out = new Set(), f = getFood(id);
+    for (const k in P) { if (k === 'fruitNo') continue; if (P[k].includes(id)) P[k].forEach(x => out.add(x)); }
+    if (f && f.c === 'fruta') FRUITS.forEach(x => out.add(x));
+    if (out.size < 9 && f) PV.FOODS.filter(x => x.c === f.c).forEach(x => out.add(x.id));
+    out.delete(id); return [...out];
+  };
+  const alternatives = (s, meal, id, n) => {
+    const f0 = getFood(id); if (!f0) return [];
+    const ctx = planCtx(s, Object.assign({}, (s.plan && s.plan.settings) || {}, { useTaste: true, avoid: true }));
+    const ibs = ctx.restr.includes('ibs'), inMeal = new Set((meal.items || []).map(i => i.id)), out = [];
+    const first = roleIds(id), seen = new Set(first);
+    const consider = (cid, pen) => {
+      const f = getFood(cid); if (!f || inMeal.has(cid)) return;
+      if (conflicts(f, ctx.restr).length) return;
+      if (ibs && f.gut === 'm') return;
+      const tv = ctx.taste[cid]; if (tv === -1) return;
+      const sc = (tv === 2 ? 4 : tv === 1 ? 2 : 0) + (f.gut === 'b' ? 1.5 : f.gut === 'r' ? 0.5 : 0) + (f.c === f0.c ? 1.5 : 0) - Math.abs(f.kcal - f0.kcal) / 150 - Math.abs(f.p - f0.p) / 15 - pen;
+      out.push([f, sc]);
+    };
+    first.forEach(cid => consider(cid, 0));
+    // si las restricciones dejan menos de las pedidas, completa con otros de su misma categoría
+    if (out.length < (n || 5)) PV.FOODS.filter(x => x.c === f0.c && x.id !== id && !seen.has(x.id) && x.kcal > 0).forEach(x => consider(x.id, 3));
+    out.sort((a, b) => b[1] - a[1]);
+    return out.slice(0, n || 5).map(x => x[0]);
+  };
+  const swapGrams = (fOld, gOld, fNew) => {
+    const k = nutr(fOld, gOld).kcal, base = portion(fNew, 'x');
+    return roundG(fNew, clamp(fNew.kcal > 0 ? k / fNew.kcal * 100 : gOld, base * 0.5, base * 2));
+  };
+
   /* ---------- detective digestivo ---------- */
   const tsOf = (k, t) => new Date(k + 'T' + (t || '12:00') + ':00').getTime();
   const detective = s => {
@@ -1359,7 +1555,7 @@ textarea.in { min-height: 76px; resize: vertical; }
   const defaults = () => ({
     v: 1,
     profile: { sex: '', age: 0, height: 0, goalWeight: 0, activity: 1.375, goal: 'mantener', restr: [], motivo: '' },
-    weights: [], days: {}, custom: {}, feelings: [], taste: {}, plan: null, program: null,
+    weights: [], days: {}, custom: {}, feelings: [], taste: {}, favs: [], plan: null, program: null,
     settings: { alerts: true, remind: true, planType: '', planMeals: 5, useTaste: true, tour: false }, reintro: { active: null, done: {} }, tol: {}, shop: { have: {}, bought: {} }
   });
   const merge = (d) => {
@@ -1371,14 +1567,34 @@ textarea.in { min-height: 76px; resize: vertical; }
     out.settings = { ...b.settings, ...(d.settings || {}) };
     out.shop = { have: {}, bought: {}, ...(d.shop || {}) };
     out.reintro = { active: null, done: {}, ...(d.reintro || {}) };
-    ['weights', 'feelings'].forEach(k => { if (!Array.isArray(out[k])) out[k] = []; });
+    ['weights', 'feelings', 'favs'].forEach(k => { if (!Array.isArray(out[k])) out[k] = []; });
     ['days', 'custom', 'taste', 'tol'].forEach(k => { if (!out[k] || typeof out[k] !== 'object') out[k] = {}; });
     return out;
   };
   const Store = { state: defaults(), mode: 'local', doc: null, status: null, timer: null, subs: [] };
   const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
-  const lsGet = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } };
-  const lsSet = v => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } };
+  /* usuarios de este dispositivo: cada número de móvil tiene sus propios datos */
+  const UKEY = 'plato-vivo-users';
+  const Users = {
+    get: () => { try { const u = JSON.parse(localStorage.getItem(UKEY)); return u && u.list ? u : { cur: '', list: {} }; } catch (e) { return { cur: '', list: {} }; } },
+    set: v => { try { localStorage.setItem(UKEY, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } },
+    current: () => { const u = Users.get(); return u.cur && u.list[u.cur] ? Object.assign({ phone: u.cur }, u.list[u.cur]) : null; }
+  };
+  const curKey = () => { const x = Users.current(); return x && !x.first ? KEY + ':' + x.phone : KEY; };
+  const docName = () => { const x = Users.current(); return x && !x.first ? 'u' + x.phone : 'state'; };
+  const lsGet = () => { try { return JSON.parse(localStorage.getItem(curKey())); } catch (e) { return null; } };
+  const lsSet = v => { try { localStorage.setItem(curKey(), JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } };
+  /* copia automática: una al día, se guardan las tres últimas en el dispositivo */
+  const backups = () => { try { return JSON.parse(localStorage.getItem(curKey() + ':bk')) || []; } catch (e) { return []; } };
+  const bkAuto = snap => {
+    try {
+      const l = backups(), day = dateKey();
+      if (l[0] && l[0].d === day) return;
+      if (!Object.keys(snap.days || {}).length && !(snap.weights || []).length) return;
+      l.unshift({ d: day, s: snap });
+      try { localStorage.setItem(curKey() + ':bk', JSON.stringify(l.slice(0, 3))); } catch (e) { localStorage.setItem(curKey() + ':bk', JSON.stringify(l.slice(0, 1))); }
+    } catch (e) { /* sin espacio */ }
+  };
   Store.init = async () => {
     const C = G.claude;
     let cloud = null;
@@ -1387,7 +1603,7 @@ textarea.in { min-height: 76px; resize: vertical; }
         const user = await C.use('user'); const id = user && user.id ? await user.id() : null;
         const db = await C.use('db');
         if (db && id) {
-          Store.doc = db.collection('data/users/' + id).doc('state');
+          Store.doc = db.collection('data/users/' + id).doc(docName());
           Store.status = db.collection('status').doc('today');
           const snap = await withTimeout(Store.doc.get(), 9000);
           Store.mode = 'cloud';
@@ -1404,13 +1620,14 @@ textarea.in { min-height: 76px; resize: vertical; }
     clearTimeout(Store.timer);
     Store.timer = setTimeout(async () => {
       const snap = JSON.parse(JSON.stringify(Store.state));
-      lsSet(snap);
+      lsSet(snap); bkAuto(snap);
       if (Store.doc) {
         try { await Store.doc.set(snap); } catch (e) { Store.mode = 'local'; }
         try { if (Store.status) await Store.status.set(statusSummary(Store.state)); } catch (e) { /* aviso opcional */ }
       }
     }, 700);
   };
+  Store.flush = () => { clearTimeout(Store.timer); lsSet(JSON.parse(JSON.stringify(Store.state))); };
   Store.mutate = fn => { fn(Store.state); customMap = Store.state.custom; Store.save(); };
   const statusSummary = s => {
     const k = dateKey(), st = dayStatus(s, k);
@@ -1567,7 +1784,7 @@ textarea.in { min-height: 76px; resize: vertical; }
     getFood, tagSet, nutr, sumItems, qtyLabel, roundG, conflicts, gutPts, matches, combosOf, partnersOf, zoneOf, plateStats,
     sortedWeights, currentWeight, bmr, profileOk, bmi, bmiCat, floorKcal, targets, dayOf, dayTotals, dayStatus,
     movingAvg, trend, programFor, genWeek, genMeal, shopping, detective, demoOn, addDemo, clearDemo,
-    Store, defaults, merge, statusSummary, exportData, ai, customFromAi, portion, FMAP,
+    Store, Users, backups, alternatives, swapGrams, defaults, merge, statusSummary, exportData, ai, customFromAi, portion, FMAP,
     adaptRecipe, recipeInfo, recipesFor, addRecipeToDay, aiRecipe, pantryIngredients, recipesByPantry, learned,
     registerCustom: f => { customMap[f.id] = f; }
   });
@@ -1599,7 +1816,7 @@ textarea.in { min-height: 76px; resize: vertical; }
     plan: '<svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>',
     yo: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/></svg>'
   };
-  const NAV = [['hoy', 'Hoy'], ['alimentos', 'Alimentos'], ['detective', 'Detective'], ['plan', 'Plan'], ['yo', 'Yo']];
+  const NAV = [['hoy', 'Hoy'], ['alimentos', 'Alimentos'], ['detective', 'Digestión'], ['plan', 'Plan'], ['yo', 'Yo']];
   const LOGO = '<svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.2" fill="none" stroke="var(--ink)" stroke-width="1.8"/><path d="M14 14V4a10 10 0 0 1 10 10z" fill="var(--prot)"/><path d="M14 14h10a10 10 0 0 1-10 10z" fill="var(--carb)"/><path d="M14 14v10a10 10 0 0 1 0-20z" fill="var(--fib)"/></svg>';
 
   /* ---------- utilidades de interfaz ---------- */
@@ -1626,7 +1843,8 @@ textarea.in { min-height: 76px; resize: vertical; }
     const top = $('#top');
     if (top) {
       const dn = U.tab === 'hoy' ? '<div class="datenav"><button data-act="prev" aria-label="Día anterior">‹</button><span class="d">' + (U.date === todayK() ? 'Hoy' : PV.fmtDay(U.date)) + '</span><button data-act="next" aria-label="Día siguiente"' + (U.date >= todayK() ? ' disabled style="opacity:.35"' : '') + '>›</button></div>' : '';
-      top.innerHTML = '<div class="brand">' + LOGO + 'Plato Vivo</div>' + dn;
+      const cb = !!(U.canBack && U.canBack());
+      top.innerHTML = (cb ? '<button class="iconbtn" data-act="goback" aria-label="Atrás">‹</button>' : '') + '<div class="brand">' + LOGO + (cb && U.tab === 'hoy' ? '' : 'Plato Vivo') + '</div>' + dn;
     }
     $('#banner').innerHTML = bannerHTML();
     const v = U.VIEWS[U.tab];
@@ -1754,13 +1972,19 @@ textarea.in { min-height: 76px; resize: vertical; }
       '<div class="sec" style="margin-top:12px"><div class="hero"><div class="sumrow">' + ringHTML(tot.kcal, t.kcal, st.flags.kcal) + '<div class="macros">' +
       mrow('Hidratos', tot.h, t.h, 'var(--carb)') + mrow('Proteínas', tot.p, t.p, 'var(--prot)') + mrow('Grasas', tot.g, t.fatLimit, 'var(--fat)', st.flags.fat) + mrow('Fibra', tot.fib, t.fib, 'var(--fib)') + mrow('Azúcar libre', tot.fs, t.fsHard, 'var(--accent)', st.flags.fs) +
       '</div></div>' + (t.ok ? '' : '<p class="small muted" style="margin-top:12px">Objetivo base de 2.000 kcal. Completa tu perfil en «Yo» para ajustarlo a ti.</p>') + '</div></div>' +
-      coachHTML(s, st, t, tot, d) +
+      coachHTML(s, st, t, tot, d) + (U.todayCardsHTML ? U.todayCardsHTML() : '') +
       '<div class="sec"><div class="chips">' + chips + '</div>' +
       '<div class="card"><div class="platewrap">' + plateSVG(items) + '<div class="platemeta">' + meta + '<div class="legend"><span><i style="background:var(--fib)"></i>½ verdura y fruta</span><span><i style="background:var(--prot)"></i>¼ proteína</span><span><i style="background:var(--carb)"></i>¼ almidón</span></div></div></div>' +
-      (list ? '<div style="margin-top:12px">' + list + '</div>' : '') + '</div>' + mealNotes(items) + '</div>' +
-      '<div class="sec"><div class="card"><div class="row"><h3 class="grow">Agua</h3><span class="small muted mono">' + (d.water || 0) + ' de ' + t.water + ' vasos</span></div><div class="water" style="margin-top:10px">' + glasses + '</div></div>' +
-      '<div class="card"><h3>¿Cómo te sientes ahora?</h3><p class="small muted" style="margin:4px 0 10px">Anótalo y el Detective buscará qué comidas se repiten antes de tus molestias.</p><div class="row"><button class="chip grow" data-act="feel" data-lvl="1">Bien</button><button class="chip grow" data-act="feel" data-lvl="2">Regular</button><button class="chip grow" data-act="feel" data-lvl="3">Mal</button></div></div>' +
-      '<div class="card"><div class="row"><h3 class="grow">Últimos 7 días</h3><span class="small muted">Línea: tu objetivo</span></div><div class="weekwrap" style="margin-top:14px"><div class="week">' + bars + '</div><div class="line" style="bottom:' + (22 + 90 * clamp(t.kcal / mx, 0, 1)).toFixed(0) + 'px"></div></div></div></div>';
+      (list ? '<div style="margin-top:12px">' + list + '</div><button class="link small" style="margin-top:12px" data-act="favsave">Guardar como comida habitual</button>' : '') + '</div>' + mealNotes(items) + '</div>' +
+      '<div class="sec"><div class="card"><h3>¿Cómo te sientes ahora?</h3><p class="small muted" style="margin:4px 0 10px">Anótalo y en Digestión verás qué comidas se repiten antes de tus molestias.</p><div class="row"><button class="chip grow" data-act="feel" data-lvl="1">Bien</button><button class="chip grow" data-act="feel" data-lvl="2">Regular</button><button class="chip grow" data-act="feel" data-lvl="3">Mal</button></div></div>' +
+      '<div class="card row"><div class="grow"><b>Agua</b><div class="small muted mono">' + (d.water || 0) + ' de ' + t.water + ' vasos</div></div><button class="iconbtn" data-act="water" data-n="' + Math.max(0, (d.water || 0)) + '" aria-label="Quitar un vaso"' + ((d.water || 0) ? '' : ' disabled') + '>−</button><button class="iconbtn primary" data-act="water" data-n="' + ((d.water || 0) + 1) + '" aria-label="Añadir un vaso">+</button></div></div>';
+  };
+  U.weekCard = () => {
+    const s = S(), k = todayK(), t = PV.dayStatus(s, k).t;
+    const days = Array.from({ length: 7 }, (_, n) => addDays(k, n - 6)), kc = days.map(x => PV.dayTotals(s, x).kcal), mx = Math.max(t.kcal * 1.3, ...kc);
+    const bars = days.map((x, n) => '<div class="b ' + (kc[n] > t.kcal * 1.05 ? 'over' : '') + (x === k ? ' today' : '') + '"><div class="bw"><i style="height:' + clamp(kc[n] / mx * 100, 2, 100).toFixed(0) + '%"></i></div><span>' + PV.parseKey(x).toLocaleDateString('es-ES', { weekday: 'narrow' }) + '</span></div>').join('');
+    return ''+
+      '<div class="card"><div class="row"><h3 class="grow">Últimos 7 días</h3><span class="small muted">Línea: tu objetivo</span></div><div class="weekwrap" style="margin-top:14px"><div class="week">' + bars + '</div><div class="line" style="bottom:' + (22 + 90 * clamp(t.kcal / mx, 0, 1)).toFixed(0) + 'px"></div></div></div>';
   };
 
   /* ---------- hojas ---------- */
@@ -1770,7 +1994,7 @@ textarea.in { min-height: 76px; resize: vertical; }
     const sh = U.sheet; if (!sh) return;
     const R = { add: sheetAdd, food: sheetFood, edit: sheetEdit, feel: sheetFeel }[sh.type] || (() => (U.VIEWS.__sheet ? U.VIEWS.__sheet(sh) : { title: '', body: '' }));
     const r = R();
-    $('#sheetHost').innerHTML = '<div class="sheet-back" data-act="backdrop"><div class="sheet" role="dialog" aria-modal="true" aria-label="' + esc(r.title) + '"><div class="sheet-head"><h3>' + r.title + '</h3><button class="iconbtn" data-act="close" aria-label="Cerrar">×</button></div><div class="sheet-body" id="sb">' + r.body + '</div>' + (r.foot ? '<div class="sheet-foot" id="sf">' + r.foot + '</div>' : '') + '</div></div>';
+    $('#sheetHost').innerHTML = '<div class="sheet-back" data-act="backdrop"><div class="sheet" role="dialog" aria-modal="true" aria-label="' + esc(r.title) + '"><div class="sheet-head"><button class="iconbtn" data-act="close" aria-label="Atrás">‹</button><h3>' + r.title + '</h3><button class="iconbtn" data-act="close" aria-label="Cerrar">×</button></div><div class="sheet-body" id="sb">' + r.body + '</div>' + (r.foot ? '<div class="sheet-foot" id="sf">' + r.foot + '</div>' : '') + '</div></div>';
   };
 
   /* --- añadir --- */
@@ -1780,7 +2004,7 @@ textarea.in { min-height: 76px; resize: vertical; }
   function trayHTML() {
     const rows = U.tray.map((t, i) => {
       const f = getFood(t.id); if (!f) return '';
-      return '<div class="trow"><span class="nm">' + esc(f.e) + ' ' + esc(f.n) + '</span><input class="in" type="number" inputmode="decimal" min="0" step="' + (t.mode === 'u' ? 0.5 : 5) + '" value="' + t.n + '" data-bind="trayn" data-i="' + i + '" aria-label="Cantidad de ' + esc(f.n) + '">' + qtySelect(f, t.mode, ['traymode', 'data-i="' + i + '"']) + '<span class="k" data-k="' + i + '">' + fmt(PV.nutr(f, trayG(t)).kcal) + '</span><button class="iconbtn" data-act="trayrm" data-i="' + i + '" aria-label="Quitar ' + esc(f.n) + '">×</button></div>';
+      return '<div class="trow"><span class="nm">' + esc(f.e) + ' ' + esc(f.n) + (U.eyeHint && t.mode === 'g' ? U.eyeHint(f) : '') + '</span><input class="in" type="number" inputmode="decimal" min="0" step="' + (t.mode === 'u' ? 0.5 : 5) + '" value="' + t.n + '" data-bind="trayn" data-i="' + i + '" aria-label="Cantidad de ' + esc(f.n) + '">' + qtySelect(f, t.mode, ['traymode', 'data-i="' + i + '"']) + '<span class="k" data-k="' + i + '">' + fmt(PV.nutr(f, trayG(t)).kcal) + '</span><button class="iconbtn" data-act="trayrm" data-i="' + i + '" aria-label="Quitar ' + esc(f.n) + '">×</button></div>';
     }).join('');
     return '<div class="row wrap-r" style="margin-bottom:8px"><select class="in" data-bind="addmeal" style="width:auto" aria-label="Comida">' + MEALS.map(m => '<option value="' + m.id + '"' + (U.addMeal === m.id ? ' selected' : '') + '>' + m.n + '</option>').join('') + '</select><input class="in" type="time" data-bind="addtime" value="' + esc(U.addTime) + '" style="width:auto" aria-label="Hora"><span class="grow"></span><span class="mono small" id="trayTot">' + trayTotText() + '</span></div>' +
       (rows ? '<div class="tray">' + rows + '</div>' : '<p class="small muted" style="margin-bottom:8px">Toca alimentos, haz una foto o descríbelos: se suman aquí.</p>') +
@@ -1796,9 +2020,11 @@ textarea.in { min-height: 76px; resize: vertical; }
     let list = allFoods().filter(f => (!U.cat || f.c === U.cat) && (!q || norm(f.n).includes(q)));
     const rowOf = f => '<button class="li" data-act="pick" data-id="' + esc(f.id) + '">' + tile(f) + '<span class="li-main"><span class="li-title">' + esc(f.n) + '</span><span class="li-sub"><span class="mono">' + fmt(f.kcal) + ' kcal/100 g</span>' + flagTags(f) + (f.c === 'bebida' ? '' : gutTag(f)) + '</span></span></button>';
     if (!q && !U.cat) {
+      const fv = U.favsHTML ? U.favsHTML() : '';
       const cnt = {}; for (const dd of Object.values(S().days)) for (const it of dd.items) if (!it.demo) cnt[it.id] = (cnt[it.id] || 0) + 1;
       const fr = Object.entries(cnt).sort((a, b) => b[1] - a[1]).slice(0, 6).map(e => getFood(e[0])).filter(Boolean);
-      if (fr.length) return '<p class="lab" style="margin-top:4px">Los que más usas</p>' + fr.map(rowOf).join('') + '<p class="lab" style="margin-top:12px">Todos</p>' + list.sort((a, b) => a.n.localeCompare(b.n, 'es')).slice(0, 60).map(rowOf).join('');
+      if (!fr.length && fv) return fv + '<p class="lab" style="margin-top:12px">Todos</p>' + list.sort((a, b) => a.n.localeCompare(b.n, 'es')).slice(0, 60).map(rowOf).join('');
+      if (fr.length) return fv + '<p class="lab" style="margin-top:4px">Los que más usas</p>' + fr.map(rowOf).join('') + '<p class="lab" style="margin-top:12px">Todos</p>' + list.sort((a, b) => a.n.localeCompare(b.n, 'es')).slice(0, 60).map(rowOf).join('');
     }
     list.sort((a, b) => a.n.localeCompare(b.n, 'es'));
     if (!list.length) return '<div class="empty"><p>No encuentro «' + esc(U.q) + '». Prueba a describirlo con palabras o escanea su código de barras.</p></div>';
@@ -1842,7 +2068,7 @@ textarea.in { min-height: 76px; resize: vertical; }
         '<div class="drop"><p>' + (lab ? 'Haz una foto a los ingredientes y alérgenos del envase.' : 'Haz una foto a tu plato o a un producto. Cada foto suma a la calculadora.') + '</p><div class="row wrap-r" style="justify-content:center"><button class="btn primary" data-act="shoot">Hacer foto</button><button class="btn" data-act="gallery">Elegir de la galería</button></div><p class="xs muted">' + (lab ? 'Que se lea bien el texto, con buena luz.' : 'Mejor desde arriba, con luz y sin tapar la comida.') + '</p></div>';
     }
     return '<div class="field"><label class="lab" for="desc">Cuéntame qué has comido o bebido</label><textarea class="in" id="desc" data-bind="desc" placeholder="Ej.: dos tostadas con aguacate y un café con leche">' + esc(U.desc) + '</textarea></div>' +
-      (U.aiError ? '<div class="banner bad" style="margin:0">' + esc(U.aiError) + '</div>' : '') +
+      (U.aiError ? '<div class="banner bad" style="margin:0">' + esc(U.aiError) + '</div>' : '') + (U.sugHTML ? U.sugHTML() : '') +
       (U.busy ? '<div class="row"><div class="spin"></div><span class="grow">Calculando…</span><button class="btn sm" data-act="aicancel">Cancelar</button></div>' : '<button class="btn primary" data-act="aitext">Calcular calorías y nutrientes</button>') +
       '<p class="xs muted">Si te dice una cantidad la usa; si no, estima una ración normal. Revisa los gramos antes de añadir.</p>';
   }
@@ -1935,6 +2161,7 @@ textarea.in { min-height: 76px; resize: vertical; }
       title: esc(f.n),
       body: '<div class="stack"><div class="row">' + tile(f, true) + '<div><div class="big-n" id="edK">' + fmt(n.kcal) + ' kcal</div><div class="small muted mono" id="edM">H ' + fmt(n.h, 1) + ' · P ' + fmt(n.p, 1) + ' · G ' + fmt(n.g, 1) + ' g</div></div></div>' +
         '<div class="grid2"><div class="field"><label class="lab" for="edN">Cantidad</label><input class="in" id="edN" type="number" inputmode="decimal" min="0" step="' + (sh.mode === 'u' ? 0.5 : 5) + '" value="' + sh.n + '" data-bind="edn"></div><div class="field"><label class="lab" for="edU">Unidad</label>' + qtySelect(f, sh.mode, ['edmode', 'id="edU"']) + '</div></div>' +
+        (U.eyeHint ? U.eyeHint(f) : '') +
         '<div class="grid2"><div class="field"><label class="lab" for="edS">Comida</label><select class="in" id="edS" data-bind="edslot">' + MEALS.map(m => '<option value="' + m.id + '"' + (sh.slot === m.id ? ' selected' : '') + '>' + m.n + '</option>').join('') + '</select></div><div class="field"><label class="lab" for="edT">Hora</label><input class="in" id="edT" type="time" value="' + esc(sh.t) + '" data-bind="edtime"></div></div>' +
         '<button class="link" data-act="detail" data-id="' + esc(f.id) + '" style="text-align:left">Ver ficha del alimento</button></div>',
       foot: '<div class="row"><button class="btn danger" data-act="eddel">Quitar</button><button class="btn primary grow" data-act="edsave">Guardar</button></div>'
@@ -2030,7 +2257,7 @@ textarea.in { min-height: 76px; resize: vertical; }
   A.feelsave = () => {
     const sh = U.sheet;
     U.commit(s => { s.feelings.push({ id: uid(), ts: sh.date + 'T' + (sh.time || PV.nowTime()), lvl: sh.lvl, sym: sh.sym.slice(), note: (sh.note || '').slice(0, 140) }); });
-    U.closeSheet(); U.toast('Anotado. Con unos días de datos el Detective empezará a encontrar patrones.');
+    U.closeSheet(); U.toast('Anotado. Con unos días de datos, Digestión empezará a encontrar patrones.');
   };
 
   /* ---------- eventos ---------- */
@@ -2141,7 +2368,13 @@ textarea.in { min-height: 76px; resize: vertical; }
     const t = (U.desc || '').trim();
     if (t.length < 2) { U.aiError = 'Escribe qué has comido.'; U.refreshAdd(); return; }
     const r = parseText(t);
-    if (!r.items.length) { U.aiError = 'No he reconocido ningún alimento. Prueba con nombres sencillos: «arroz, pollo y una manzana».'; U.refreshAdd(); return; }
+    // para lo que no reconoce, propone los alimentos más parecidos en vez de descartarlo
+    U.sug = r.unknown.map(w => {
+      const ws = w.split(' ').filter(x => x.length >= 4).map(x => x.slice(0, 5));
+      const hits = ws.length ? PV.FOODS.filter(fd => { const nm = norm(fd.n); return ws.some(x => nm.includes(x)); }).slice(0, 4) : [];
+      return { w, ids: hits.map(fd => fd.id) };
+    }).filter(x => x.ids.length);
+    if (!r.items.length) { U.aiError = U.sug.length ? 'No lo he reconocido tal cual. ¿Es alguno de estos?' : 'No he reconocido ningún alimento. Prueba con nombres sencillos: «arroz, pollo y una manzana».'; U.refreshAdd(); return; }
     U.aiError = '';
     r.items.forEach(it => { const f = PV.FMAP[it.id]; if (!f) return; const ex = U.tray.find(x => x.id === f.id && x.mode === 'g'); if (ex) ex.n += it.gramos; else U.tray.push({ id: f.id, mode: 'g', n: it.gramos }); });
     U.desc = ''; U.refreshAdd();
@@ -2230,6 +2463,57 @@ textarea.in { min-height: 76px; resize: vertical; }
     try { const p = await G.Notification.requestPermission(); U.toast(p === 'granted' ? 'Avisos del navegador activados.' : 'No has permitido los avisos.', p === 'granted' ? '' : 'warn'); } catch (e) { U.toast('Tu navegador no admite avisos.', 'warn'); }
     U.render();
   };
+
+
+  /* ---------- recordatorios nativos (app de Android con Capacitor) ---------- */
+  const LN = () => { const c = G.Capacitor; return c && c.isNativePlatform && c.isNativePlatform() && c.Plugins && c.Plugins.LocalNotifications ? c.Plugins.LocalNotifications : null; };
+  U.native = () => !!LN();
+  const REM = [['desayuno', 'Desayuno', '08:30', 101], ['comida', 'Comida', '14:30', 102], ['cena', 'Cena', '21:00', 103], ['resumen', 'Resumen del día', '22:00', 104]];
+  PV.free.REM = REM;
+  const remOf = () => Object.assign({ on: false }, PV.Store.state.settings.rem || {});
+  PV.free.remGet = remOf;
+  PV.free.schedule = async () => {
+    const ln = LN(); if (!ln) return;
+    try {
+      const pend = await ln.getPending();
+      if (pend.notifications && pend.notifications.length) await ln.cancel({ notifications: pend.notifications });
+      const r = remOf(); if (!r.on) return;
+      const mot = (PV.Store.state.profile.motivo || '').trim();
+      const body = {
+        desayuno: 'Buenos días. ¿Ya has desayunado? Apúntalo en Plato Vivo.',
+        comida: 'Hora de comer: media plato de verdura, un cuarto de proteína y otro de almidón.',
+        cena: 'Cena ligera y apunta lo que has comido hoy.',
+        resumen: mot ? 'Revisa tu día: calorías, grasas y azúcares. ' + mot : 'Revisa tu día: calorías, grasas y azúcares. Cuidarte hoy es sentirte mejor mañana.'
+      };
+      // Avisos de los próximos 14 días. Hoy se saltan las comidas que ya has apuntado.
+      const now = Date.now(), st = PV.Store.state, tk = PV.dateKey(), todayItems = PV.dayOf(st, tk).items, logged = new Set(todayItems.map(i => i.slot)), list = [];
+      for (let d = 0; d < 14; d++) {
+        const b0 = new Date(); b0.setDate(b0.getDate() + d);
+        REM.forEach(([k, , def, id]) => {
+          const [h, m] = String(r[k] || def).split(':').map(Number), at = new Date(b0.getFullYear(), b0.getMonth(), b0.getDate(), h || 0, m || 0, 0, 0);
+          if (at.getTime() <= now + 60000) return;
+          if (d === 0 && k !== 'resumen' && logged.has(k)) return;
+          list.push({ id: id * 100 + d, title: 'Plato Vivo', body: body[k], schedule: { at, allowWhileIdle: true } });
+        });
+      }
+      // Dos horas después de la última comida de hoy: «¿cómo te ha sentado?»
+      let last = 0;
+      for (const it of todayItems) { const [h, m] = String(it.t || '12:00').split(':').map(Number), x = PV.parseKey(tk); x.setHours(h || 0, m || 0, 0, 0); if (x.getTime() <= now && x.getTime() > last) last = x.getTime(); }
+      if (last && last + 2 * 3600000 > now + 60000 && !st.feelings.some(fl => new Date(fl.ts).getTime() >= last))
+        list.push({ id: 990, title: '¿Cómo te ha sentado la comida?', body: 'Abre Plato Vivo y anótalo en un toque: bien, regular o mal.', schedule: { at: new Date(last + 2 * 3600000), allowWhileIdle: true } });
+      if (list.length) await ln.schedule({ notifications: list });
+    } catch (e) { /* sin permiso o sin plugin */ }
+  };
+  A.remon = async () => {
+    const ln = LN(); if (!ln) return;
+    const r = remOf();
+    if (!r.on) {
+      try { const p = await ln.requestPermissions(); if (p.display !== 'granted') { U.toast('Sin permiso de notificaciones no puedo avisarte. Actívalo en Ajustes del móvil.', 'warn'); return; } } catch (e) { /* continúa */ }
+    }
+    PV.Store.mutate(s => { s.settings.rem = Object.assign({}, remOf(), { on: !r.on }); });
+    await PV.free.schedule(); U.render(); U.toast(!r.on ? 'Recordatorios activados.' : 'Recordatorios desactivados.');
+  };
+  B.remt = el => { PV.Store.mutate(s => { s.settings.rem = Object.assign({}, remOf(), { [el.dataset.k]: el.value }); }); PV.free.schedule(); };
 
   /* ---------- copia de seguridad: exportar e importar ---------- */
   A.import = () => {
@@ -2349,7 +2633,7 @@ textarea.in { min-height: 76px; resize: vertical; }
         (d.allies.length ? '<div class="card"><h3>Aliados</h3><p class="small muted" style="margin:4px 0 8px">Los que casi nunca preceden a una molestia.</p>' + d.allies.map(o => detRow(esc((getFood(o.k) || { e: '', n: o.k }).e + ' ' + (getFood(o.k) || { n: o.k }).n), o, 'good')).join('') + '</div>' : '') +
         '<p class="small muted">Es una correlación, no un diagnóstico: que dos cosas coincidan no prueba que una cause la otra. Contrástalo con tu médico.</p>';
     }
-    return sec('<div class="sec-title">Detective digestivo <small>' + d.checks + ' registros</small></div>' +
+    return sec('<div class="sec-title">Tu digestión <small>' + d.checks + ' registros</small></div>' +
       '<div class="card"><h3>¿Cómo te sientes ahora?</h3><div class="row" style="margin-top:10px"><button class="chip grow" data-act="feel" data-lvl="1">Bien</button><button class="chip grow" data-act="feel" data-lvl="2">Regular</button><button class="chip grow" data-act="feel" data-lvl="3">Mal</button></div>' +
       '<p class="lab" style="margin-top:14px">Últimos 14 días (peor registro de cada día)</p><div class="daystrip">' + strip + '</div></div>' + body +
       reintroHTML() +
@@ -2421,7 +2705,7 @@ textarea.in { min-height: 76px; resize: vertical; }
     const hasTaste = Object.keys(s.taste).length > 0;
     const cfg = (hasTaste ? '' : '<div class="banner info"><div class="grow"><b>Haz primero el test de gustos</b><p class="small">Así el menú respeta lo que te gusta y lo que te sienta mal.</p></div><button class="btn sm" data-act="psub" data-v="gus">Test</button></div>') + '<div class="card stack"><h3>Genera tu semana</h3>' +
       '<div class="chips">' + PTYPES.map(([k, n]) => chip(t === k, 'ptype', 'data-v="' + k + '"', n)).join('') + '</div>' +
-      (t === 'intolerancias' && !s.profile.restr.length ? '<p class="small muted">Marca tus intolerancias o alergias en «Yo» para que las respete.</p>' : '') +
+      '<p class="small muted">' + (s.profile.restr.length ? 'Respeta siempre: ' + s.profile.restr.map(k => esc(((PV.RESTR.find(r => r.k === k) || {}).n || k).toLowerCase())).join(', ') + '.' : 'No has marcado intolerancias ni alergias.') + ' <button class="link" data-act="psub" data-v="gus">Cambiar</button></p>' +
       (useTaste() && Object.keys(PV.learned(s)).length ? '<p class="small muted">Aprendiendo de tu diario: priorizo ' + Object.keys(PV.learned(s)).slice(0, 5).map(k => esc((getFood(k) || { n: k }).n.toLowerCase())).join(', ') + ' porque los comes a menudo o te sientan bien.</p>' : '') +
       (t === 'perder' && s.program ? '<p class="small muted">Usará los ' + fmt(s.program.kcal) + ' kcal de tu programa.</p>' : '') +
       '<div class="field"><span class="lab">Comidas al día</span><div class="seg">' + [3, 4, 5].map(n => '<button class="' + (planMeals() === n ? 'on' : '') + '" data-act="pmeals" data-v="' + n + '">' + n + '</button>').join('') + '</div></div>' +
@@ -2435,7 +2719,7 @@ textarea.in { min-height: 76px; resize: vertical; }
     const meals = day.meals.map((m, mi) => {
       const mt = PV.sumItems(m.items);
       return '<div class="card"><div class="row"><h3 class="grow">' + esc(H.mealName(m.slot)) + '</h3><span class="small muted mono">' + fmt(mt.kcal) + ' kcal</span>' + (m.done ? '' : '<button class="iconbtn" data-act="preroll" data-m="' + mi + '" aria-label="Cambiar ' + esc(H.mealName(m.slot)) + '">↻</button>') + '</div><button class="btn sm ' + (m.done ? '' : 'primary') + '" style="margin:6px 0" data-act="pmeal" data-m="' + mi + '">' + (m.done ? '✓ Comido · deshacer' : 'Lo he comido') + '</button>' +
-        m.items.map(i => { const f = getFood(i.id); return f ? '<button class="li" data-act="detail" data-id="' + esc(f.id) + '">' + H.tile(f) + '<span class="li-main"><span class="li-title">' + esc(f.n) + '</span><span class="li-sub">' + esc(PV.qtyLabel(f, i.g)) + '</span></span><span class="li-end">' + fmt(PV.nutr(f, i.g).kcal) + ' kcal</span></button>' : ''; }).join('') + '</div>';
+        m.items.map((i, ii) => { const f = getFood(i.id); return f ? '<div class="plrow"><button class="li" data-act="detail" data-id="' + esc(f.id) + '">' + H.tile(f) + '<span class="li-main"><span class="li-title">' + esc(f.n) + '</span><span class="li-sub">' + esc(PV.qtyLabel(f, i.g)) + '</span></span><span class="li-end">' + fmt(PV.nutr(f, i.g).kcal) + ' kcal</span></button>' + (m.done ? '' : '<button class="iconbtn" data-act="pdel" data-m="' + mi + '" data-i="' + ii + '" aria-label="Quitar o cambiar ' + esc(f.n) + '">×</button>') + '</div>' : ''; }).join('') + (m.done ? '' : '<p class="xs muted" style="margin-top:8px">Pulsa × en un alimento que no te guste o te siente mal y te propongo cinco alternativas.</p>') + '</div>';
     }).join('');
     return cfg + '<div class="daytabs" style="margin:14px 0 10px">' + tabs + '</div>' +
       '<div class="card"><div class="row"><div class="grow"><div class="big-n">' + fmt(dt.kcal) + ' <small class="small muted" style="font-family:var(--f-body)">kcal · objetivo ' + fmt(tgt) + '</small></div><div class="small muted">H ' + fmt(dt.h) + ' · P ' + fmt(dt.p) + ' · G ' + fmt(dt.g) + ' g · fibra ' + fmt(dt.fib) + ' g</div></div></div>' +
@@ -2616,12 +2900,14 @@ textarea.in { min-height: 76px; resize: vertical; }
         '<button class="btn" data-act="tiredo">Repetir el test</button></div>';
     }
     const f = getFood(ids[i]), cur = s.taste[f.id];
-    return '<div class="card"><div class="row small muted"><span class="grow">' + (i + 1) + ' de ' + ids.length + '</span><span>' + n + ' respondidos</span></div><div class="progress" style="margin-top:6px"><i style="width:' + Math.round(i / ids.length * 100) + '%"></i></div>' +
+    const rcard = '<div class="card stack"><h3>Primero: intolerancias y alergias</h3><div class="chips" style="flex-wrap:wrap">' + PV.RESTR.map(r => chip(s.profile.restr.includes(r.k), 'restr', 'data-k="' + r.k + '"', esc(r.n))).join('') + '</div><p class="small muted">El menú nunca incluirá lo que marques aquí, y no te preguntaré por alimentos que no puedes tomar.</p></div>';
+    return rcard + '<div class="card" style="margin-top:12px"><div class="row small muted"><span class="grow">' + (i + 1) + ' de ' + ids.length + '</span><span>' + n + ' respondidos</span></div><div class="progress" style="margin-top:6px"><i style="width:' + Math.round(i / ids.length * 100) + '%"></i></div>' +
       '<div class="taste"><div class="big" aria-hidden="true">' + esc(f.e) + '</div><h3>' + esc(f.n) + '</h3><p class="small muted">¿Te gusta y te sienta bien?</p>' +
       '<div class="stack" style="width:100%"><button class="btn primary block' + '" data-act="tst" data-v="2">Me encanta</button><button class="btn block" data-act="tst" data-v="1">Bien</button><button class="btn block" data-act="tst" data-v="-1">No me gusta / no lo como</button><button class="btn block" data-act="tst" data-v="-2">Me gusta, pero me sienta mal</button><button class="link" data-act="tst" data-v="0">Saltar</button></div></div>' +
       (cur ? '<p class="small muted" style="text-align:center">Ya lo habías marcado.</p>' : '') + '</div>' +
-      (i > 0 ? '<button class="btn block" style="margin-top:10px" data-act="tiback">← Anterior</button>' : '');
+      '<div class="row" style="margin-top:10px">' + (i > 0 ? '<button class="btn grow" data-act="tiback">← Anterior</button>' : '') + (n >= 10 ? '<button class="btn grow" data-act="tiend">Terminar y usar lo respondido</button>' : '') + '</div>';
   }
+  A.tiend = () => { U.pl.ti = PV.TASTE_IDS.length; U.render(); G.scrollTo(0, 0); };
   A.tst = el => {
     const v = +el.dataset.v, id = PV.TASTE_IDS[U.pl.ti];
     U.commit(s => { s.tol = s.tol || {}; delete s.tol[id]; if (v === -2) { s.taste[id] = 1; s.tol[id] = 1; } else if (v) s.taste[id] = v; });
@@ -2706,25 +2992,33 @@ textarea.in { min-height: 76px; resize: vertical; }
       '<text class="ax" x="' + pl + '" y="' + (Hh - 4) + '">' + esc(PV.fmtDate(first)) + '</text><text class="ax" x="' + (W - pr) + '" y="' + (Hh - 4) + '" text-anchor="end">' + esc(PV.fmtDate(last)) + '</text></svg></div>' +
       '<p class="small muted">Línea gruesa: media de 7 días' + (g > 0 ? ' · verde: tu meta' : '') + '.</p>' + tx;
   }
+
+  function remCard() {
+    const r = PV.free.remGet();
+    return '<div class="card stack"><h3>Recordatorios del móvil</h3><p class="small muted">Te avisan a estas horas aunque la app esté cerrada.</p>' +
+      '<label class="check"><input type="checkbox" data-act="remon"' + (r.on ? ' checked' : '') + '><span>Activar recordatorios diarios</span></label>' +
+      (r.on ? PV.free.REM.map(([k, n, def]) => '<div class="row"><label class="grow" for="rem_' + k + '">' + esc(n) + '</label><input id="rem_' + k + '" class="in" type="time" style="width:auto" value="' + esc(r[k] || def) + '" data-bind="remt" data-k="' + k + '"></div>').join('') : '') + '</div>';
+  }
   U.VIEWS.yo = () => {
     const s = S(), pr = s.profile, ws = PV.sortedWeights(s).slice().reverse(), st = PV.Store.mode;
     const num = (k, lab, ph, step) => '<div class="field"><label class="lab" for="pf_' + k + '">' + lab + '</label><input id="pf_' + k + '" class="in" type="number" inputmode="decimal" step="' + step + '" placeholder="' + ph + '" value="' + (pr[k] || '') + '" data-bind="pf" data-k="' + k + '"></div>';
-    return sec('<div class="sec-title">Tu perfil</div>' +
+    return sec((U.accountHTML ? U.accountHTML() : '') + '<div class="sec-title">Tu perfil</div>' +
       '<div class="card stack"><div class="field"><span class="lab">Sexo</span><div class="seg">' + [['f', 'Mujer'], ['m', 'Hombre'], ['x', 'Otro']].map(([k, n]) => '<button class="' + (pr.sex === k ? 'on' : '') + '" data-act="sex" data-v="' + k + '">' + n + '</button>').join('') + '</div></div>' +
       '<div class="grid2">' + num('age', 'Edad', 'años', 1) + num('height', 'Altura (cm)', 'cm', 1) + '</div>' + num('goalWeight', 'Peso objetivo (kg)', 'opcional', 0.1) +
       '<div class="field"><label class="lab" for="pf_act">Actividad</label><select id="pf_act" class="in" data-bind="pfact">' + PV.ACTIVITY.map(a => '<option value="' + a.k + '"' + (+pr.activity === a.k ? ' selected' : '') + '>' + esc(a.n + ' · ' + a.d) + '</option>').join('') + '</select></div>' +
       '<div class="field"><label class="lab" for="pf_goal">Objetivo</label><select id="pf_goal" class="in" data-bind="pfgoal">' + [['mantener', 'Mantener peso'], ['perder', 'Perder peso'], ['ganar', 'Ganar músculo']].map(([k, n]) => '<option value="' + k + '"' + (pr.goal === k ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></div>' +
       '<div class="field"><label class="lab" for="pf_mot">Tu motivo (te lo recordaré en los avisos)</label><input id="pf_mot" class="in" maxlength="120" placeholder="Ej.: quiero sentirme ligero y sin molestias" value="' + esc(pr.motivo) + '" data-bind="pfmot"></div></div>' +
-      progressHTML() +
+      progressHTML() + (U.weekCard ? U.weekCard() : '') +
       '<div class="card"><h3>Tus cifras</h3><div id="metrics" style="margin-top:10px">' + metricsHTML() + '</div></div>' +
       '<div class="card stack"><h3>Intolerancias, alergias y dieta</h3><div class="chips" style="flex-wrap:wrap">' + PV.RESTR.map(r => chip(pr.restr.includes(r.k), 'restr', 'data-k="' + r.k + '"', esc(r.n))).join('') + '</div>' +
       '<p class="small muted">Marca solo lo que te hayan diagnosticado o notes con claridad. La celiaquía debe confirmarse con análisis antes de quitar el gluten.</p></div>' +
       '<div class="card stack"><h3>Peso</h3><div class="row"><input class="in" type="date" max="' + today() + '" value="' + esc(U.me.wd) + '" data-bind="wd" aria-label="Fecha"><input class="in" type="number" inputmode="decimal" step="0.1" min="20" max="400" placeholder="kg" value="' + esc(U.me.wkg) + '" data-bind="wkg" aria-label="Peso en kg"><button class="btn primary" data-act="wadd">Guardar</button></div>' + weightChart() +
       (ws.length ? '<div>' + ws.slice(0, 8).map(w => '<div class="row" style="padding:6px 0;border-bottom:1px solid var(--line)"><span class="grow">' + esc(PV.fmtDate(w.d)) + '</span><b class="mono">' + fmt(w.kg, 1) + ' kg</b><button class="iconbtn" data-act="wdel" data-d="' + w.d + '" aria-label="Borrar peso del ' + esc(PV.fmtDate(w.d)) + '">×</button></div>').join('') + '</div>' : '') + '</div>' +
+      (U.native && U.native() ? remCard() : '') +
       '<div class="card stack"><h3>Avisos</h3><label class="check"><input type="checkbox" data-bind="setalerts"' + (s.settings.alerts ? ' checked' : '') + '><span>Avisarme si me paso de calorías, grasas o azúcares libres</span></label>' +
       '<label class="check"><input type="checkbox" data-bind="setremind"' + (s.settings.remind ? ' checked' : '') + '><span>Recordarme registrar el desayuno, la comida y la cena</span></label>' +
-      '' + (G.Notification && G.Notification.permission === 'default' ? '<button class="btn" data-act="notifon">Activar avisos del navegador</button>' : '') + '<p class="small muted">Los avisos aparecen mientras la app está abierta. Con la app cerrada, el navegador no me deja enviar notificaciones desde aquí: se pueden activar como tareas programadas de Claude.</p></div>' +
-      '<div class="card stack"><h3>Tus datos</h3><p class="small muted">' + (st === 'cloud' ? 'Guardados en tu cuenta y en este dispositivo.' : 'Guardados solo en este dispositivo.') + '</p><div class="row"><button class="btn grow" data-act="export">Exportar copia</button><button class="btn grow" data-act="import">Importar copia</button></div><div class="row">' +
+      '' + (!(U.native && U.native()) && G.Notification && G.Notification.permission === 'default' ? '<button class="btn" data-act="notifon">Activar avisos del navegador</button>' : '') + '<p class="small muted">Los avisos aparecen mientras la app está abierta. Con la app cerrada, el navegador no me deja enviar notificaciones desde aquí: se pueden activar como tareas programadas de Claude.</p></div>' +
+      '<div class="card stack"><h3>Tus datos</h3><p class="small muted">' + (st === 'cloud' ? 'Guardados en tu cuenta y en este dispositivo.' : 'Guardados solo en este dispositivo.') + '</p><div class="row"><button class="btn grow" data-act="export">Exportar copia</button><button class="btn grow" data-act="import">Importar copia</button></div>' + (U.backupsHTML ? U.backupsHTML() : '') + '<div class="row">' +
       (PV.demoOn(s) ? '<button class="btn grow" data-act="democlear">Quitar ejemplo</button>' : '<button class="btn grow" data-act="demoadd">Cargar ejemplo</button>') + '</div>' +
       (U.me.confirm ? '<div class="banner bad" style="margin:0"><div class="grow"><b>¿Borrar todo?</b><p class="small">Se eliminan perfil, diario, pesos y gustos. No se puede deshacer.</p></div><button class="btn danger sm" data-act="wipe">Borrar</button><button class="btn sm" data-act="wipeno">No</button></div>' : '<button class="btn danger" data-act="wipeask">Borrar todos mis datos</button>') + '</div>' +
       '<p class="small muted">Plato Vivo es una ayuda informativa creada con IA. No sustituye a un médico ni a un dietista-nutricionista; ante síntomas persistentes, consulta con un profesional.</p>', true);
@@ -2832,9 +3126,12 @@ textarea.in { min-height: 76px; resize: vertical; }
 
   /* ---------- tutorial inicial ---------- */
   const TOUR = [
-    ['📸', 'Añade comida como quieras', 'Busca un alimento, haz una foto, descríbelo con palabras o escanea una etiqueta. Te digo calorías, nutrientes, gluten, trazas y cómo suele sentar al colon.'],
-    ['🔎', 'Descubre qué te sienta mal', 'Anota cómo te sientes después de comer. El Detective cruza tus comidas y tus molestias para encontrar patrones.'],
-    ['🍳', 'Menús y recetas para ti', 'Haz el test de gustos, completa tu perfil y te propongo menús y recetas con airfryer, plancha y olla adaptadas a ti.']
+    ['🍽️', 'Apunta lo que comes', 'Pulsa «Añadir», busca el alimento, descríbelo con palabras o escanea su código de barras. Verás calorías, nutrientes, gluten y cómo suele sentar.'],
+    ['⭐', 'Repite sin buscar', 'Tus alimentos más usados salen los primeros. Y con «Guardar como comida habitual» apuntas tu desayuno de siempre con un toque.'],
+    ['🔎', 'Descubre qué te sienta mal', 'Anota cómo te sientes después de comer. En «Digestión» cruzo tus comidas y tus molestias para encontrar patrones.'],
+    ['🧪', 'Haz el test antes del menú', 'En «Plan» marcas tus intolerancias y alergias y me dices qué te gusta. El menú semanal se construye solo con eso.'],
+    ['🔁', 'Cambia lo que no te guste', 'En el menú, pulsa × sobre un alimento y elige una de las cinco alternativas que encajan en esa comida.'],
+    ['👤', 'Completa tu perfil', 'En «Yo» pones tus datos y tu peso para ajustar tus calorías. Todo queda guardado con tu número en este móvil.']
   ];
   function sheetTour() {
     const i = U.sheet.i, t = TOUR[i];
@@ -2846,7 +3143,7 @@ textarea.in { min-height: 76px; resize: vertical; }
 
 
   function sheetGate() {
-    return { title: 'Antes de preparar tu menú', body: '<div class="taste"><div class="big" aria-hidden="true">🍽️</div><h3>Cuéntame qué te gusta</h3><p class="muted">Con un test de 2 minutos me dices qué alimentos te gustan, cuáles no comes y cuáles te sientan mal. Así tu menú sale a tu medida.</p></div>',
+    return { title: 'Antes de preparar tu menú', body: '<div class="taste"><div class="big" aria-hidden="true">🍽️</div><h3>Cuéntame qué te gusta</h3><p class="muted">Primero marcas tus intolerancias y alergias, y después me dices qué alimentos te gustan, cuáles no comes y cuáles te sientan mal. Así tu menú sale a tu medida.</p></div>',
       foot: '<div class="stack"><button class="btn primary block" data-act="gatetest">Hacer el test ahora</button><button class="btn block" data-act="gateskip">Generar sin test</button></div>' };
   }
   A.gatetest = () => { U.closeSheet(); U.pl.sub = 'gus'; U.pl.ti = 0; U.render(); G.scrollTo(0, 0); };
@@ -2855,17 +3152,296 @@ textarea.in { min-height: 76px; resize: vertical; }
   /* hoja personalizada */
   U.VIEWS.__sheet = sh => (sh.type === 'recipe' ? sheetRecipe() : sh.type === 'shop' ? sheetShop() : sh.type === 'tour' ? sheetTour() : sh.type === 'gate' ? sheetGate() : sh.type === 'cook' ? sheetCook() : sh.type === 'week' ? sheetWeek() : { title: '', body: '' });
 
-  (async function boot() {
-    await PV.Store.init();
-    U.ai = await PV.ai.ready();
-    U.render();
-    if (!S().settings.tour) U.openSheet('tour', { i: 0 });
-    setInterval(U.checkReminders, 60000);
-    setTimeout(U.checkReminders, 8000);
-  })();
+  /* el arranque está en extra.js */
 })(globalThis);
 
 </script>
+<script>
+/* Plato Vivo · registro por número de móvil, botón atrás, alternativas del menú, comidas habituales y copias automáticas. */
+(function (G) {
+  const PV = G.PV, U = PV.UI, A = U.ACT, B = U.BIND, D = G.document;
+  const { esc, fmt, getFood } = PV;
+  const $ = s => D.querySelector(s);
+  const S = () => PV.Store.state;
+  const H = U.helpers;
+
+  /* ---------- test de gustos: no pregunta por lo que el usuario no puede tomar ---------- */
+  const TASTE_ALL = PV.TASTE_IDS.filter((id, i, a) => a.indexOf(id) === i && getFood(id));
+  Object.defineProperty(PV, 'TASTE_IDS', {
+    configurable: true,
+    get: () => { const r = S().profile.restr; return TASTE_ALL.filter(id => !PV.conflicts(getFood(id), r).length); }
+  });
+
+  /* ---------- botón atrás: vuelve a la pantalla anterior ---------- */
+  const cap = G.Capacitor, isNative = !!(cap && cap.isNativePlatform && cap.isNativePlatform());
+  const APP = isNative && cap.Plugins ? cap.Plugins.App : null;
+  const Nav = { stack: [], ignore: 0, native: false, h: 0 };
+  const push = fn => {
+    Nav.stack.push(fn); if (Nav.stack.length > 40) Nav.stack.shift();
+    if (!Nav.native) { try { G.history.pushState({ pv: Nav.stack.length }, ''); Nav.h++; } catch (e) { /* sin historial */ } }
+  };
+  const drop = fn => {
+    const i = Nav.stack.lastIndexOf(fn); if (i < 0) return;
+    Nav.stack.splice(i, 1);
+    if (!Nav.native && Nav.h > 0) { Nav.h--; Nav.ignore++; try { G.history.back(); } catch (e) { Nav.ignore--; } }
+  };
+  const goBack = () => { const fn = Nav.stack.pop(); if (fn) { fn(); return true; } return false; };
+  U.back = goBack;
+  U.canBack = () => !U.sheet && Nav.stack.length > 0;
+  // flecha «atrás» de la pantalla: usa el mismo camino que el botón del móvil
+  A.goback = () => { if (!Nav.native && Nav.h > 0) { try { G.history.back(); return; } catch (e) { /* sigue */ } } goBack(); };
+  G.addEventListener('popstate', () => { if (Nav.ignore > 0) { Nav.ignore--; return; } Nav.h = Math.max(0, Nav.h - 1); goBack(); });
+  if (APP && APP.addListener) {
+    try {
+      APP.addListener('backButton', () => { if (!goBack()) { try { (APP.minimizeApp || APP.exitApp).call(APP); } catch (e) { /* nada */ } } });
+      Nav.native = true;
+    } catch (e) { Nav.native = false; }
+  }
+  // hojas
+  const openRaw = U.openSheet, closeRaw = U.closeSheet;
+  let sheetEntry = null, tourNext = false;
+  const afterClose = type => { if (type === 'setup' && tourNext) { tourNext = false; setTimeout(() => U.openSheet('tour', { i: 0 }), 60); } };
+  U.openSheet = (type, data) => {
+    const had = !!U.sheet;
+    openRaw(type, data);
+    if (!had && !sheetEntry) { sheetEntry = () => { sheetEntry = null; const t = U.sheet && U.sheet.type; if (U.sheet) closeRaw(); afterClose(t); }; push(sheetEntry); }
+  };
+  U.closeSheet = () => { const e = sheetEntry, t = U.sheet && U.sheet.type; sheetEntry = null; if (e) drop(e); closeRaw(); afterClose(t); };
+  // pestañas y subpestañas del plan
+  const tabRaw = A.tab;
+  A.tab = (el, e) => { const t0 = U.tab; tabRaw(el, e); if (U.tab !== t0) push(() => { U.tab = t0; U.render(); G.scrollTo(0, 0); }); };
+  const psubRaw = A.psub;
+  A.psub = (el, e) => { const s0 = U.pl.sub; psubRaw(el, e); if (U.pl.sub !== s0) push(() => { U.pl.sub = s0; U.render(); G.scrollTo(0, 0); }); };
+
+  /* ---------- registro con número de móvil ---------- */
+  const cleanPhone = v => { let p = String(v || '').replace(/\D/g, ''); if (p.startsWith('00')) p = p.slice(2); if (p.length === 9) p = '34' + p; return p; };
+  const showPhone = p => (p.length === 11 && p.startsWith('34') ? '+34 ' + p.slice(2, 5) + ' ' + p.slice(5, 8) + ' ' + p.slice(8) : '+' + p);
+  const Reg = { err: '', fresh: false };
+  function gateHTML() {
+    const u = PV.Users.get(), known = Object.entries(u.list);
+    return '<div class="gate"><div class="gate-logo" aria-hidden="true">🍽️</div><h1>Plato Vivo</h1><p class="muted">Entra con tu número de móvil. Así tu perfil, tu diario y tus menús quedan guardados a tu nombre.</p>' +
+      (known.length ? '<div class="card stack"><h3>Ya has entrado antes</h3>' + known.map(([p, x]) => '<button class="btn block" data-act="reguse" data-p="' + esc(p) + '">' + esc((x.name || 'Usuario') + ' · ' + showPhone(p)) + '</button>').join('') + '</div>' : '') +
+      '<div class="card stack"><h3>' + (known.length ? 'Entrar con otro número' : 'Crea tu perfil') + '</h3>' +
+      '<div class="field"><label class="lab" for="rg_name">Tu nombre</label><input class="in" id="rg_name" maxlength="40" autocomplete="given-name" placeholder="Ej.: Maykel"></div>' +
+      '<div class="field"><label class="lab" for="rg_tel">Número de móvil</label><input class="in" id="rg_tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="600 000 000"></div>' +
+      (Reg.err ? '<div class="banner bad" style="margin:0">' + esc(Reg.err) + '</div>' : '') +
+      '<button class="btn primary block" data-act="regok">Entrar</button>' +
+      '<p class="xs muted">No se envía ningún SMS y el número no sale de tu móvil: solo sirve para separar tus datos de los de otra persona que use este mismo teléfono.</p></div></div>';
+  }
+  function showGate() { D.body.classList.add('gated'); $('#top').innerHTML = ''; $('#banner').innerHTML = ''; $('#navin').innerHTML = ''; $('#view').innerHTML = gateHTML(); }
+  A.regok = () => {
+    const name = ($('#rg_name').value || '').trim(), p = cleanPhone($('#rg_tel').value);
+    if (name.length < 2) { Reg.err = 'Escribe tu nombre.'; showGate(); return; }
+    if (p.length < 9 || p.length > 15) { Reg.err = 'Revisa el número: tiene que tener 9 cifras, o el prefijo del país delante.'; showGate(); return; }
+    const u = PV.Users.get(), isNew = !u.list[p];
+    if (isNew) u.list[p] = { name, at: new Date().toISOString(), first: !Object.keys(u.list).length };
+    else u.list[p].name = name;
+    u.cur = p; PV.Users.set(u); Reg.err = ''; Reg.fresh = isNew; start();
+  };
+  A.reguse = el => { const u = PV.Users.get(), p = el.dataset.p; if (!u.list[p]) return; u.cur = p; PV.Users.set(u); Reg.fresh = false; start(); };
+  A.logout = () => {
+    PV.Store.flush(); const u = PV.Users.get(); u.cur = ''; PV.Users.set(u);
+    try { G.location.reload(); } catch (e) { showGate(); }
+  };
+  U.accountHTML = () => {
+    const x = PV.Users.current(); if (!x) return '';
+    return '<div class="card row acct"><div class="avatar" aria-hidden="true">' + esc((x.name || '?').slice(0, 1).toUpperCase()) + '</div><div class="grow"><b>' + esc(x.name || 'Usuario') + '</b><div class="small muted mono">' + esc(showPhone(x.phone)) + '</div></div><button class="btn sm" data-act="logout">Cambiar de usuario</button></div>';
+  };
+
+  /* ---------- copias automáticas ---------- */
+  let bkAsk = -1;
+  U.backupsHTML = () => {
+    const l = PV.backups(); if (!l.length) return '<p class="xs muted">Cada día que uses la app se guarda sola una copia en este móvil.</p>';
+    return '<p class="lab" style="margin-top:4px">Copias automáticas en este móvil</p>' + l.map((b, i) => bkAsk === i
+      ? '<div class="banner warn" style="margin:0"><div class="grow"><b>¿Volver al ' + esc(PV.fmtDate(b.d)) + '?</b><p class="small">Se sustituyen tus datos actuales por los de esa copia.</p></div><button class="btn sm" data-act="bkgo" data-i="' + i + '">Sí</button><button class="btn sm" data-act="bkno">No</button></div>'
+      : '<button class="btn block" data-act="bkask" data-i="' + i + '">Recuperar copia del ' + esc(PV.fmtDate(b.d)) + '</button>').join('') +
+      '<p class="xs muted">Se guarda una al día y se conservan las tres últimas. Te salvan de un borrado por error, pero no si pierdes el móvil: para eso usa «Exportar copia».</p>';
+  };
+  A.bkask = el => { bkAsk = +el.dataset.i; U.render(); };
+  A.bkno = () => { bkAsk = -1; U.render(); };
+  A.bkgo = el => {
+    const b = PV.backups()[+el.dataset.i]; bkAsk = -1; if (!b) return;
+    U.commit(s => { const m = PV.merge(b.s); for (const k of Object.keys(s)) delete s[k]; Object.assign(s, m); });
+    U.toast('Copia del ' + PV.fmtDate(b.d) + ' recuperada.');
+  };
+
+  /* ---------- comidas habituales ---------- */
+  A.favsave = () => {
+    const items = PV.dayOf(S(), U.date).items.filter(i => i.slot === U.meal && getFood(i.id)); if (!items.length) return;
+    const names = items.slice(0, 2).map(i => getFood(i.id).n.split(' (')[0].toLowerCase()).join(' y ');
+    U.commit(s => { s.favs = s.favs || []; s.favs.unshift({ id: PV.uid(), n: H.mealName(U.meal) + ': ' + names + (items.length > 2 ? '…' : ''), items: items.map(i => ({ id: i.id, g: i.g })) }); s.favs = s.favs.slice(0, 12); });
+    U.toast('Guardada. La tienes arriba al pulsar «Añadir».');
+  };
+  U.favsHTML = () => {
+    const l = S().favs || []; if (!l.length) return '';
+    return '<p class="lab" style="margin-top:4px">Tus comidas habituales</p><div class="favs">' + l.map((f, i) => '<div class="fav"><button class="fav-go" data-act="favuse" data-i="' + i + '"><b>' + esc(f.n) + '</b><span class="small muted mono">' + fmt(PV.sumItems(f.items).kcal) + ' kcal · ' + f.items.length + ' alimentos</span></button><button class="iconbtn" data-act="favdel" data-i="' + i + '" aria-label="Borrar ' + esc(f.n) + '">×</button></div>').join('') + '</div>';
+  };
+  A.favuse = el => {
+    const f = (S().favs || [])[+el.dataset.i]; if (!f) return;
+    f.items.forEach(it => { if (getFood(it.id)) U.tray.push({ id: it.id, mode: 'g', n: it.g }); });
+    U.refreshAdd(); U.toast('Añadida a la bandeja. Revisa y pulsa guardar.');
+  };
+  A.favdel = el => { PV.Store.mutate(s => { (s.favs || []).splice(+el.dataset.i, 1); }); U.refreshAdd(); };
+
+  /* ---------- «Describir»: sugerencias para lo que no reconoce ---------- */
+  U.sug = [];
+  U.sugHTML = () => (U.sug && U.sug.length ? U.sug.map((x, k) => '<div class="card flat"><p class="small"><b>«' + esc(x.w) + '»</b> no lo tengo tal cual. ¿Es alguno de estos?</p><div class="chips" style="flex-wrap:wrap;margin-top:8px">' + x.ids.map(id => '<button class="chip" data-act="sugadd" data-k="' + k + '" data-id="' + esc(id) + '">' + esc(getFood(id).e + ' ' + getFood(id).n) + '</button>').join('') + '<button class="chip" data-act="sugno" data-k="' + k + '">Ninguno</button></div></div>').join('') : '');
+  A.sugadd = el => { const f = getFood(el.dataset.id); if (f) U.tray.push(f.unit && f.uG ? { id: f.id, mode: 'u', n: 1 } : { id: f.id, mode: 'g', n: 100 }); U.sug.splice(+el.dataset.k, 1); U.aiError = ''; U.refreshAdd(); };
+  A.sugno = el => { U.sug.splice(+el.dataset.k, 1); if (!U.sug.length) U.aiError = ''; U.refreshAdd(); };
+  const openAddRaw = U.openAdd; U.openAdd = (meal, items) => { U.sug = []; openAddRaw(meal, items); };
+
+  /* ---------- menú: quitar un alimento y elegir entre cinco alternativas ---------- */
+  A.pdel = el => U.openSheet('swap', { m: +el.dataset.m, i: +el.dataset.i, why: '', all: true });
+  const WHY = [['', 'No lo tengo'], ['gusto', 'No me gusta'], ['mal', 'Me sienta mal']];
+  function sheetSwap() {
+    const s = S(), sh = U.sheet, meal = s.plan && s.plan.days[U.pl.day].meals[sh.m], it = meal && meal.items[sh.i], f = it && getFood(it.id);
+    if (!f) return { title: 'Cambiar alimento', body: '<p class="muted">Ese alimento ya no está en el menú.</p>' };
+    const alts = PV.alternatives(s, meal, f.id, 5);
+    const rows = alts.map(a => { const g = PV.swapGrams(f, it.g, a); return '<button class="li" data-act="swapgo" data-id="' + esc(a.id) + '">' + H.tile(a) + '<span class="li-main"><span class="li-title">' + esc(a.n) + '</span><span class="li-sub">' + esc(PV.qtyLabel(a, g)) + ' ' + H.gutTag(a) + (s.taste[a.id] === 2 ? '<span class="tag good">Te encanta</span>' : '') + '</span></span><span class="li-end">' + fmt(PV.nutr(a, g).kcal) + ' kcal</span></button>'; }).join('');
+    return {
+      title: 'Cambiar ' + esc(f.n.toLowerCase()),
+      body: '<div class="stack"><div class="field"><span class="lab">¿Por qué lo quitas?</span><div class="seg">' + WHY.map(([k, n]) => '<button class="' + (sh.why === k ? 'on' : '') + '" data-act="swapwhy" data-v="' + k + '">' + n + '</button>').join('') + '</div>' +
+        '<p class="xs muted">' + (sh.why ? 'Lo apunto y no volverá a salir en tus próximos menús.' : 'Solo se cambia esta vez: podrá volver a salir en otros menús.') + '</p>' + '</div>' +
+        '<div><p class="lab">Alternativas que encajan en esta comida</p>' + (rows || '<p class="small muted" style="margin-top:6px">No encuentro alternativas compatibles con tus intolerancias y gustos. Puedes quitarlo sin sustituir.</p>') + '</div>' +
+        '<label class="check"><input type="checkbox" data-bind="swapall"' + (sh.all ? ' checked' : '') + '><span>Cambiarlo también en el resto de la semana</span></label></div>',
+      foot: '<button class="btn block" data-act="swapgo" data-id="">Quitarlo sin sustituir</button>'
+    };
+  }
+  A.swapwhy = el => { U.sheet.why = el.dataset.v; U.renderSheet(); };
+  B.swapall = el => { if (U.sheet) U.sheet.all = el.checked; };
+  A.swapgo = el => {
+    const sh = U.sheet, idNew = el.dataset.id || '', fNew = idNew ? getFood(idNew) : null; let oldName = '', n = 0;
+    PV.Store.mutate(s => {
+      const day = s.plan.days[U.pl.day], target = day.meals[sh.m], old = target.items[sh.i]; if (!old) return;
+      const fOld = getFood(old.id), oldId = old.id; oldName = fOld ? fOld.n : '';
+      if (sh.why === 'gusto') { s.taste[oldId] = -1; if (s.tol) delete s.tol[oldId]; }
+      else if (sh.why === 'mal') { s.tol = s.tol || {}; s.tol[oldId] = 1; if (!s.taste[oldId] || s.taste[oldId] === -1) s.taste[oldId] = 1; }
+      const change = (meal, idx) => {
+        const o = meal.items[idx];
+        if (fNew && !meal.items.some(x => x.id === idNew)) meal.items[idx] = { id: idNew, g: PV.swapGrams(fOld, o.g, fNew) };
+        else meal.items.splice(idx, 1);
+        n++;
+      };
+      change(target, sh.i);
+      if (sh.all) for (const d of s.plan.days) for (const m of d.meals) { if (m.done || m === target) continue; const k = m.items.findIndex(x => x.id === oldId); if (k >= 0) change(m, k); }
+    });
+    U.closeSheet();
+    U.toast((fNew ? 'Cambiado ' + oldName.toLowerCase() + ' por ' + fNew.n.toLowerCase() : 'Quitado ' + oldName.toLowerCase()) + (n > 1 ? ' en ' + n + ' comidas.' : '.'));
+  };
+  const sheetPrev = U.VIEWS.__sheet;
+  U.VIEWS.__sheet = sh => (sh.type === 'swap' ? sheetSwap() : sh.type === 'setup' ? sheetSetup() : sh.type === 'allergy' ? sheetAllergy() : sheetPrev(sh));
+
+  /* ---------- cantidades a ojo ---------- */
+  const EYE = { carne: ['la palma de tu mano', 120], pescado: ['la palma de tu mano', 130], legumbre: ['un puño cerrado', 150], verdura: ['dos manos juntas', 150], fruto_seco: ['un puñado', 30], fruta: ['tu puño', 150] };
+  U.eyeHint = f => {
+    let e = EYE[f.c];
+    if (f.c === 'cereal') e = /^pan|tortita|wrap|galleta|cereales|granola|muesli|harina/.test(f.id) ? null : ['un puño cerrado', 150];
+    if (f.c === 'lacteo') e = /queso|parmesano|mozzarella|emmental/.test(f.id) && !/batido|fresco|crema|requeson/.test(f.id) ? ['dos dedos juntos', 30] : null;
+    if (f.c === 'grasa') e = /aceite/.test(f.id) ? ['una cucharada sopera', 10] : ['la yema del pulgar', 10];
+    return e ? '<span class="eye xs muted">A ojo: ' + e[0] + ' ≈ ' + e[1] + ' g</span>' : '';
+  };
+
+  /* ---------- portada: qué toca según tu menú y cómo te ha sentado ---------- */
+  let feelSkip = 0;
+  const tsMs = (d, t) => { const [h, m] = String(t || '12:00').split(':').map(Number), x = PV.parseKey(d); x.setHours(h || 0, m || 0, 0, 0); return x.getTime(); };
+  const feelPending = s => {
+    const k = PV.dateKey(), now = Date.now(); let best = 0, slot = '';
+    for (const i of PV.dayOf(s, k).items) { if (i.demo) continue; const t = tsMs(k, i.t); if (t <= now && t > best) { best = t; slot = i.slot; } }
+    if (!best || best === feelSkip) return null;
+    const age = now - best; if (age < 90 * 60000 || age > 6 * 3600000) return null;
+    if (s.feelings.some(f => new Date(f.ts).getTime() >= best)) return null;
+    return { t: best, slot, h: Math.round(age / 3600000) };
+  };
+  const planToday = s => { const pl = s.plan; if (!pl || !pl.days) return null; return { pl, idx: PV.daysBetween(pl.at ? PV.dateKey(new Date(pl.at)) : PV.dateKey(), PV.dateKey()) }; };
+  U.todayCardsHTML = () => {
+    const s = S(); if (U.date !== PV.dateKey()) return '';
+    let h = '';
+    const fp = feelPending(s);
+    if (fp) h += '<div class="card ask"><div class="row"><h3 class="grow">¿Cómo te ha sentado ' + esc((H.mealName(fp.slot) || 'la comida').toLowerCase()) + '?</h3><button class="iconbtn" data-act="feelskip" data-t="' + fp.t + '" aria-label="Ahora no">×</button></div><p class="small muted" style="margin:4px 0 10px">Han pasado unas ' + Math.max(2, fp.h) + ' horas. Anotarlo es lo que permite encontrar qué te sienta mal.</p><div class="row"><button class="chip grow" data-act="feel" data-lvl="1">Bien</button><button class="chip grow" data-act="feel" data-lvl="2">Regular</button><button class="chip grow" data-act="feel" data-lvl="3">Mal</button></div></div>';
+    const pt = planToday(s);
+    if (pt && pt.idx > 6) h += '<div class="card row"><div class="grow"><b>Tu menú semanal ha terminado</b><div class="small muted">Genera otra semana con tus gustos.</div></div><button class="btn sm" data-act="plangoto">Ir al plan</button></div>';
+    else if (pt && pt.idx >= 0) {
+      const day = pt.pl.days[pt.idx], mi = day.meals.findIndex(m => m.slot === U.meal), meal = day.meals[mi];
+      if (meal && meal.items.length) {
+        const names = meal.items.map(i => getFood(i.id)).filter(Boolean).map(f => f.n.split(' (')[0]).join(', ');
+        h += '<div class="card plan-today"><p class="lab">Según tu menú · ' + esc(H.mealName(meal.slot)) + '</p><b>' + esc(names) + '</b><div class="small muted mono" style="margin-top:2px">' + fmt(PV.sumItems(meal.items).kcal) + ' kcal</div><div class="row" style="margin-top:10px">' +
+          (meal.done ? '<span class="tag good">✓ Anotado en tu diario</span><span class="grow"></span>' : '<button class="btn primary grow" data-act="ptoday" data-m="' + mi + '">Lo he comido</button>') + '<button class="btn" data-act="plangoto">Ver menú</button></div></div>';
+      }
+    }
+    return h ? '<div class="sec">' + h + '</div>' : '';
+  };
+  A.feelskip = el => { feelSkip = +el.dataset.t; U.render(); };
+  A.ptoday = el => { const pt = planToday(S()); if (!pt || pt.idx < 0 || pt.idx > 6) return; U.pl.day = pt.idx; A.pmeal(el); };
+  A.plangoto = () => { const pt = planToday(S()); A.tab({ dataset: { tab: 'plan' } }); U.pl.sub = 'menu'; if (pt && pt.idx >= 0 && pt.idx <= 6) U.pl.day = pt.idx; U.render(); };
+
+  /* ---------- alergias e intolerancias: se confirman antes de generar cada menú ---------- */
+  const planType = () => U.pl.type || S().settings.planType || ({ perder: 'perder', ganar: 'musculo' }[S().profile.goal] || 'equilibrada');
+  function sheetAllergy() {
+    const r = S().profile.restr, col = planType() === 'colon', on = k => r.includes(k) || (k === 'ibs' && col);
+    return { title: 'Antes de preparar tu menú', body: '<p class="muted" style="margin-bottom:10px">¿Tienes alguna alergia o intolerancia? Marca todas las que apliquen y el menú las respetará. Se guardan en tu perfil.</p><div class="chips" style="flex-wrap:wrap">' + PV.RESTR.map(x => '<button class="chip ' + (on(x.k) ? 'on' : '') + '" data-act="surestr" data-k="' + x.k + '" aria-pressed="' + on(x.k) + '">' + esc(x.n) + '</button>').join('') + '</div>' +
+      (on('ibs') ? '<div class="note" style="margin-top:12px"><span class="tag good">Colon irritable</span><span>No incluiré alimentos marcados como «mal» para el colon y daré prioridad a los suaves.</span></div>' : '') +
+      '<p class="small muted" style="margin-top:12px">Esto no sustituye a tu médico ni a un dietista.</p>',
+      foot: '<div class="stack"><button class="btn primary block" data-act="allgo">Generar menú</button><button class="btn block" data-act="allnone">No tengo ninguna</button></div>' };
+  }
+  A.allnone = () => { PV.Store.mutate(s => { s.profile.restr = []; }); U.renderSheet(); };
+  A.allgo = () => { if (planType() === 'colon' && !S().profile.restr.includes('ibs')) PV.Store.mutate(s => { s.profile.restr.push('ibs'); }); U.pl.restrOk = true; U.closeSheet(); A.pgen(); };
+  const pgenRaw = A.pgen;
+  A.pgen = (el, e) => { if (!U.pl.restrOk) { U.openSheet('allergy'); return; } pgenRaw(el, e); if (!U.sheet) U.pl.restrOk = false; };
+
+  /* ---------- perfil guiado al registrarse ---------- */
+  const GOALS = [['mantener', 'Mantener peso'], ['perder', 'Perder peso'], ['ganar', 'Ganar músculo']];
+  function sheetSetup() {
+    const sh = U.sheet, s = S(), i = sh.i;
+    const num = (k, lab, ph) => '<div class="field"><label class="lab" for="su_' + k + '">' + lab + '</label><input id="su_' + k + '" class="in" type="number" inputmode="decimal" placeholder="' + ph + '" value="' + esc(sh[k] || '') + '" data-bind="su" data-k="' + k + '"></div>';
+    const dots = '<div class="row" aria-hidden="true" style="justify-content:center">' + [0, 1, 2].map(k => '<span style="width:8px;height:8px;border-radius:50%;background:' + (k === i ? 'var(--accent)' : 'var(--line)') + '"></span>').join('') + '</div>';
+    let body;
+    if (i === 0) body = '<p class="muted">Con esto calculo las calorías que necesitas tú, no una cifra genérica.</p><div class="field"><span class="lab">Sexo</span><div class="seg">' + [['f', 'Mujer'], ['m', 'Hombre'], ['x', 'Otro']].map(([k, n]) => '<button class="' + (sh.sex === k ? 'on' : '') + '" data-act="suset" data-k="sex" data-v="' + k + '">' + n + '</button>').join('') + '</div></div><div class="grid2">' + num('age', 'Edad', 'años') + num('height', 'Altura (cm)', 'cm') + '</div>' + num('kg', 'Peso actual (kg)', 'kg');
+    else if (i === 1) body = '<p class="muted">Marca lo que tengas. El menú y las recetas nunca lo incluirán.</p><div class="chips" style="flex-wrap:wrap">' + PV.RESTR.map(r => '<button class="chip ' + (s.profile.restr.includes(r.k) ? 'on' : '') + '" data-act="surestr" data-k="' + r.k + '">' + esc(r.n) + '</button>').join('') + '</div><p class="small muted">Si no tienes ninguna, sigue adelante. Puedes cambiarlo cuando quieras en «Yo».</p>';
+    else body = '<p class="muted">Ajusto tus calorías y el reparto de tus comidas según lo que busques.</p><div class="field"><span class="lab">Objetivo</span><div class="stack">' + GOALS.map(([k, n]) => '<button class="btn block ' + (sh.goal === k ? 'primary' : '') + '" data-act="suset" data-k="goal" data-v="' + k + '">' + n + '</button>').join('') + '</div></div><div class="field"><label class="lab" for="su_act">Actividad</label><select id="su_act" class="in" data-bind="su" data-k="activity">' + PV.ACTIVITY.map(a => '<option value="' + a.k + '"' + (+sh.activity === a.k ? ' selected' : '') + '>' + esc(a.n + ' · ' + a.d) + '</option>').join('') + '</select></div>';
+    return { title: ['Sobre ti', 'Intolerancias y alergias', 'Tu objetivo'][i], body: '<div class="stack">' + body + dots + '</div>',
+      foot: '<div class="row">' + (i > 0 ? '<button class="btn" data-act="suback">Atrás</button>' : '<button class="btn" data-act="sudone" data-skip="1">Ahora no</button>') + '<button class="btn primary grow" data-act="sunext">' + (i === 2 ? 'Guardar y empezar' : 'Siguiente') + '</button></div>' };
+  }
+  B.su = el => { if (U.sheet) U.sheet[el.dataset.k] = el.value; };
+  A.suset = el => { U.sheet[el.dataset.k] = el.dataset.v; U.renderSheet(); };
+  A.surestr = el => { PV.Store.mutate(s => { const r = s.profile.restr, k = el.dataset.k, i = r.indexOf(k); if (i >= 0) r.splice(i, 1); else { r.push(k); if (k === 'vegano' && !r.includes('vegetariano')) r.push('vegetariano'); } }); U.renderSheet(); };
+  A.suback = () => { U.sheet.i = Math.max(0, U.sheet.i - 1); U.renderSheet(); };
+  A.sunext = () => { if (U.sheet.i < 2) { U.sheet.i++; U.renderSheet(); } else A.sudone({ dataset: {} }); };
+  A.sudone = el => {
+    const sh = U.sheet;
+    if (!el.dataset.skip) PV.Store.mutate(s => {
+      const p = s.profile, age = Math.round(parseFloat(sh.age) || 0), ht = Math.round(parseFloat(sh.height) || 0), kg = parseFloat(String(sh.kg || '').replace(',', '.'));
+      if (sh.sex) p.sex = sh.sex; if (age > 0 && age < 120) p.age = age; if (ht > 80 && ht < 250) p.height = ht;
+      if (sh.goal) p.goal = sh.goal; if (+sh.activity > 0) p.activity = +sh.activity;
+      if (kg >= 20 && kg <= 400) { const d = PV.dateKey(); s.weights = s.weights.filter(w => w.d !== d); s.weights.push({ d, kg: Math.round(kg * 10) / 10 }); }
+    });
+    PV.Store.mutate(s => { s.settings.setup = true; });
+    U.closeSheet();
+  };
+
+  // tras apuntar o borrar comidas, o anotar cómo te sientes, se recalculan los avisos del móvil
+  ['traysave', 'pmeal', 'feelsave', 'eddel', 'puse'].forEach(k => { const raw = A[k]; if (raw) A[k] = (el, e) => { raw(el, e); if (PV.free && PV.free.schedule) PV.free.schedule(); }; });
+
+  /* ---------- arranque ---------- */
+  let started = false;
+  async function start() {
+    D.body.classList.remove('gated');
+    $('#view').innerHTML = '<div class="empty"><div class="spin"></div><p>Cargando tu plato…</p></div>';
+    await PV.Store.init();
+    if (!started) U.ai = await PV.ai.ready();
+    U.tab = 'hoy'; U.render();
+    if (PV.free && PV.free.schedule) PV.free.schedule();
+    const p = S().profile, wantTour = Reg.fresh || !S().settings.tour;
+    if (!S().settings.setup && !PV.profileOk(S())) { tourNext = wantTour; U.openSheet('setup', { i: 0, sex: p.sex, age: p.age || '', height: p.height || '', kg: PV.currentWeight(S()) || '', goal: p.goal || 'mantener', activity: p.activity || 1.375 }); }
+    else if (wantTour) U.openSheet('tour', { i: 0 });
+    Reg.fresh = false;
+    if (!started) { setInterval(U.checkReminders, 60000); setTimeout(U.checkReminders, 8000); }
+    started = true;
+  }
+  if (PV.Users.current()) start(); else showGate();
+})(globalThis);
+
+</script>
+
 
 
 </body>
