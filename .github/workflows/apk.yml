@@ -34,7 +34,7 @@ jobs:
           mkdir app
           cd app
           npm init -y
-          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/local-notifications@6
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6 @capacitor/local-notifications@6 @capacitor/app@6
           mkdir www
           cp ../index.html www/index.html
           printf '{"appId":"com.maykelpg.platovivo","appName":"Plato Vivo","webDir":"www","server":{"androidScheme":"https"}}' > capacitor.config.json
